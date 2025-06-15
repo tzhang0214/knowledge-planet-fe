@@ -1,0 +1,125 @@
+.searchbar-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 32vh;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 340px;
+  max-width: 90vw;
+}
+
+.searchbar-wrapper-top {
+  top: 32vh;
+  transform: translateX(-50%);
+}
+
+.searchbar-form {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  border-radius: 32px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+  padding: 4px 16px 4px 20px;
+  border: 1.5px solid #e0e0e0;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.searchbar-form:focus-within {
+  box-shadow: 0 6px 32px 0 rgba(0,0,0,0.13);
+  border: 1.5px solid #b3b3b3;
+}
+
+.searchbar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.15em;
+  padding: 10px 0;
+  color: #222;
+}
+
+.searchbar-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0 0 0 8px;
+  display: flex;
+  align-items: center;
+}
+
+.searchbar-btn svg {
+  display: block;
+}
+
+.searchbar-dropdown {
+  margin-top: 6px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+  border: 1px solid #ececec;
+  padding: 8px 0 4px 0;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 100%;
+  z-index: 20;
+}
+
+.searchbar-section {
+  margin-bottom: 6px;
+}
+
+.searchbar-section-title {
+  font-size: 0.92em;
+  color: #888;
+  padding: 2px 18px 2px 18px;
+  margin-bottom: 2px;
+  text-align: left;
+}
+
+.searchbar-section-title-right {
+  text-align: right;
+}
+
+.searchbar-item {
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 1.05em;
+  color: #222;
+  border-radius: 8px;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.searchbar-item-history {
+  justify-content: space-between;
+}
+
+.searchbar-item-content {
+  flex: 1;
+  text-align: left;
+}
+
+.searchbar-item-delete {
+  color: #bbb;
+  font-size: 1.1em;
+  margin-left: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 2px 6px;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+
+.searchbar-item-delete:hover {
+  background: #f3f6fa;
+  color: #e74c3c;
+}
+
+.searchbar-item:hover {
+  background: #f3f6fa;
+} 
