@@ -228,152 +228,15 @@
             <p>Image Signal Processor 图像信号处理器完整知识体系</p>
         </div>
 
-        <div class="knowledge-grid">
-            <!-- 相机成像原理 -->
-            <div class="knowledge-section">
-                <div class="section-title">📷 相机成像原理</div>
-                <div class="knowledge-items">
-                    <div class="knowledge-item">
-                        <h3>光学系统</h3>
-                        <p>镜头组、光圈、焦距等光学元件组成成像系统</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>感光元件</h3>
-                        <p>CMOS/CCD传感器将光信号转换为电信号</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>光电转换</h3>
-                        <p>光子激发电子，产生电荷积累和电压信号</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>采样量化</h3>
-                        <p>空间和时间维度的离散化采样过程</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>色彩滤波</h3>
-                        <p>Bayer阵列等色彩滤镜实现色彩分离</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>噪声来源</h3>
-                        <p>光子噪声、暗电流噪声、读出噪声等</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ISP处理算法 -->
-            <div class="knowledge-section">
-                <div class="section-title">🔬 ISP处理算法</div>
-                <div class="knowledge-items">
-                    <div class="knowledge-item">
-                        <h3>去马赛克</h3>
-                        <p>Demosaic算法从Bayer阵列重建全彩图像</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>白平衡</h3>
-                        <p>调整RGB通道比例，校正色温偏差</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>降噪算法</h3>
-                        <p>双边滤波、非局部均值等降噪技术</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>色彩校正</h3>
-                        <p>色彩空间转换和色彩增强处理</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>锐化增强</h3>
-                        <p>拉普拉斯算子、USM等锐化算法</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>伽马校正</h3>
-                        <p>非线性亮度调整，适应人眼视觉特性</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ISP处理通路 -->
-            <div class="knowledge-section">
-                <div class="section-title">🔄 ISP处理通路</div>
-                <div class="knowledge-items">
-                    <div class="knowledge-item">
-                        <h3>原始数据</h3>
-                        <p>Raw格式图像数据，包含传感器原始信息</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>预处理</h3>
-                        <p>黑电平校正、坏点检测、镜头阴影校正</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>去马赛克</h3>
-                        <p>色彩插值，重建完整RGB图像</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>色彩处理</h3>
-                        <p>白平衡、色彩校正、饱和度调整</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>图像增强</h3>
-                        <p>降噪、锐化、对比度增强等</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>后处理</h3>
-                        <p>伽马校正、压缩编码、格式转换</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 软件开发技术栈 -->
-            <div class="knowledge-section">
-                <div class="section-title">💻 软件开发技术栈</div>
-                <div class="knowledge-items">
-                    <div class="knowledge-item">
-                        <h3>编程语言</h3>
-                        <p>C/C++、Python、MATLAB等高性能语言</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>图像处理库</h3>
-                        <p>OpenCV、PIL、scikit-image等</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>并行计算</h3>
-                        <p>OpenCL、CUDA、SIMD指令集优化</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>算法优化</h3>
-                        <p>内存管理、缓存优化、算法复杂度</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>硬件加速</h3>
-                        <p>DSP、GPU、FPGA等专用硬件</p>
-                    </div>
-                    <div class="knowledge-item">
-                        <h3>开发工具</h3>
-                        <p>调试器、性能分析器、代码优化工具</p>
-                    </div>
-                </div>
-            </div>
+        <div id="knowledge-grid" class="knowledge-grid">
+            <!-- 知识点将通过JavaScript动态生成 -->
         </div>
 
         <!-- ISP处理流程图 -->
         <div class="flow-diagram">
             <div class="flow-title">🔄 ISP处理流程图</div>
-            <div class="flow-container">
-                <div class="flow-step">
-                    <h3>光学成像</h3>
-                    <p>镜头聚焦成像</p>
-                </div>
-                <div class="flow-step">
-                    <h3>光电转换</h3>
-                    <p>传感器采集</p>
-                </div>
-                <div class="flow-step">
-                    <h3>信号处理</h3>
-                    <p>ISP算法处理</p>
-                </div>
-                <div class="flow-step">
-                    <h3>图像输出</h3>
-                    <p>最终图像</p>
-                </div>
+            <div id="flow-container" class="flow-container">
+                <!-- 流程图将通过JavaScript动态生成 -->
             </div>
         </div>
 
@@ -383,9 +246,207 @@
     </div>
 
     <script>
+        // 知识点数据配置 - 在这里修改数据即可更新界面
+        const knowledgeData = {
+            // 相机成像原理
+            "camera-imaging": {
+                title: "📷 相机成像原理",
+                items: [
+                    {
+                        title: "光学系统",
+                        description: "镜头组、光圈、焦距等光学元件组成成像系统"
+                    },
+                    {
+                        title: "感光元件",
+                        description: "CMOS/CCD传感器将光信号转换为电信号"
+                    },
+                    {
+                        title: "光电转换",
+                        description: "光子激发电子，产生电荷积累和电压信号"
+                    },
+                    {
+                        title: "采样量化",
+                        description: "空间和时间维度的离散化采样过程"
+                    },
+                    {
+                        title: "色彩滤波",
+                        description: "Bayer阵列等色彩滤镜实现色彩分离"
+                    },
+                    {
+                        title: "噪声来源",
+                        description: "光子噪声、暗电流噪声、读出噪声等"
+                    }
+                ]
+            },
+            
+            // ISP处理算法
+            "isp-algorithms": {
+                title: "🔬 ISP处理算法",
+                items: [
+                    {
+                        title: "去马赛克",
+                        description: "Demosaic算法从Bayer阵列重建全彩图像"
+                    },
+                    {
+                        title: "白平衡",
+                        description: "调整RGB通道比例，校正色温偏差"
+                    },
+                    {
+                        title: "降噪算法",
+                        description: "双边滤波、非局部均值等降噪技术"
+                    },
+                    {
+                        title: "色彩校正",
+                        description: "色彩空间转换和色彩增强处理"
+                    },
+                    {
+                        title: "锐化增强",
+                        description: "拉普拉斯算子、USM等锐化算法"
+                    },
+                    {
+                        title: "伽马校正",
+                        description: "非线性亮度调整，适应人眼视觉特性"
+                    }
+                ]
+            },
+            
+            // ISP处理通路
+            "isp-pipeline": {
+                title: "🔄 ISP处理通路",
+                items: [
+                    {
+                        title: "原始数据",
+                        description: "Raw格式图像数据，包含传感器原始信息"
+                    },
+                    {
+                        title: "预处理",
+                        description: "黑电平校正、坏点检测、镜头阴影校正"
+                    },
+                    {
+                        title: "去马赛克",
+                        description: "色彩插值，重建完整RGB图像"
+                    },
+                    {
+                        title: "色彩处理",
+                        description: "白平衡、色彩校正、饱和度调整"
+                    },
+                    {
+                        title: "图像增强",
+                        description: "降噪、锐化、对比度增强等"
+                    },
+                    {
+                        title: "后处理",
+                        description: "伽马校正、压缩编码、格式转换"
+                    },
+                    // 新增AI处理模块 - 只需要在这里添加数据即可
+                    {
+                        title: "AI处理模块",
+                        description: "深度学习算法进行图像质量增强和智能优化"
+                    }
+                ]
+            },
+            
+            // 软件开发技术栈
+            "software-stack": {
+                title: "💻 软件开发技术栈",
+                items: [
+                    {
+                        title: "编程语言",
+                        description: "C/C++、Python、MATLAB等高性能语言"
+                    },
+                    {
+                        title: "图像处理库",
+                        description: "OpenCV、PIL、scikit-image等"
+                    },
+                    {
+                        title: "并行计算",
+                        description: "OpenCL、CUDA、SIMD指令集优化"
+                    },
+                    {
+                        title: "算法优化",
+                        description: "内存管理、缓存优化、算法复杂度"
+                    },
+                    {
+                        title: "硬件加速",
+                        description: "DSP、GPU、FPGA等专用硬件"
+                    },
+                    {
+                        title: "开发工具",
+                        description: "调试器、性能分析器、代码优化工具"
+                    }
+                ]
+            }
+        };
+
+        // 流程图数据配置
+        const flowData = [
+            {
+                title: "光学成像",
+                description: "镜头聚焦成像"
+            },
+            {
+                title: "光电转换",
+                description: "传感器采集"
+            },
+            {
+                title: "信号处理",
+                description: "ISP算法处理"
+            },
+            {
+                title: "AI增强",
+                description: "深度学习优化"
+            },
+            {
+                title: "图像输出",
+                description: "最终图像"
+            }
+        ];
+
+        // 渲染知识点区块
+        function renderKnowledgeSections() {
+            const container = document.getElementById('knowledge-grid');
+            container.innerHTML = '';
+
+            Object.values(knowledgeData).forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'knowledge-section';
+                
+                sectionElement.innerHTML = `
+                    <div class="section-title">${section.title}</div>
+                    <div class="knowledge-items">
+                        ${section.items.map(item => `
+                            <div class="knowledge-item" data-title="${item.title}" data-description="${item.description}">
+                                <h3>${item.title}</h3>
+                                <p>${item.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(sectionElement);
+            });
+        }
+
+        // 渲染流程图
+        function renderFlowDiagram() {
+            const container = document.getElementById('flow-container');
+            container.innerHTML = '';
+
+            flowData.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'flow-step';
+                
+                stepElement.innerHTML = `
+                    <h3>${step.title}</h3>
+                    <p>${step.description}</p>
+                `;
+                
+                container.appendChild(stepElement);
+            });
+        }
+
         // 添加交互效果
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为所有知识点添加点击效果
+        function addInteractivity() {
             const knowledgeItems = document.querySelectorAll('.knowledge-item');
             
             knowledgeItems.forEach(item => {
@@ -396,14 +457,28 @@
                         this.style.transform = 'translateY(-5px)';
                     }, 150);
                     
-                    // 显示知识点详情（可以扩展为弹窗或详情页）
-                    const title = this.querySelector('h3').textContent;
-                    const description = this.querySelector('p').textContent;
+                    // 显示知识点详情
+                    const title = this.dataset.title;
+                    const description = this.dataset.description;
                     console.log(`知识点: ${title}\n描述: ${description}`);
+                    
+                    // 可以在这里添加弹窗显示详细信息的逻辑
+                    showKnowledgeDetail(title, description);
                 });
             });
+        }
 
-            // 添加滚动动画效果
+        // 显示知识点详情（可以扩展为弹窗）
+        function showKnowledgeDetail(title, description) {
+            // 这里可以实现弹窗显示详细信息的逻辑
+            // 例如：显示更多技术细节、相关链接、代码示例等
+            console.log(`=== ${title} 详细信息 ===`);
+            console.log(description);
+            console.log('可以在这里添加更多详细信息...');
+        }
+
+        // 添加滚动动画效果
+        function addScrollAnimations() {
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -426,11 +501,12 @@
                 section.style.transition = 'all 0.6s ease';
                 observer.observe(section);
             });
+        }
 
-            // 添加键盘导航支持
+        // 添加键盘导航支持
+        function addKeyboardNavigation() {
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Tab') {
-                    // Tab键导航时添加焦点样式
                     const focusedElement = document.activeElement;
                     if (focusedElement.classList.contains('knowledge-item')) {
                         focusedElement.style.outline = '3px solid #4ecdc4';
@@ -438,9 +514,12 @@
                     }
                 }
             });
+        }
 
-            // 添加触摸设备支持
+        // 添加触摸设备支持
+        function addTouchSupport() {
             if ('ontouchstart' in window) {
+                const knowledgeItems = document.querySelectorAll('.knowledge-item');
                 knowledgeItems.forEach(item => {
                     item.addEventListener('touchstart', function() {
                         this.style.transform = 'scale(0.95)';
@@ -451,7 +530,71 @@
                     });
                 });
             }
+        }
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 渲染所有内容
+            renderKnowledgeSections();
+            renderFlowDiagram();
+            
+            // 添加交互功能
+            addInteractivity();
+            addScrollAnimations();
+            addKeyboardNavigation();
+            addTouchSupport();
         });
+
+        // 提供全局函数，方便外部调用和修改数据
+        window.ISPKnowledgeBase = {
+            // 添加新的知识点
+            addKnowledgeItem: function(sectionKey, item) {
+                if (knowledgeData[sectionKey]) {
+                    knowledgeData[sectionKey].items.push(item);
+                    renderKnowledgeSections();
+                    addInteractivity();
+                }
+            },
+            
+            // 删除知识点
+            removeKnowledgeItem: function(sectionKey, itemTitle) {
+                if (knowledgeData[sectionKey]) {
+                    knowledgeData[sectionKey].items = knowledgeData[sectionKey].items.filter(
+                        item => item.title !== itemTitle
+                    );
+                    renderKnowledgeSections();
+                    addInteractivity();
+                }
+            },
+            
+            // 修改知识点
+            updateKnowledgeItem: function(sectionKey, itemTitle, newData) {
+                if (knowledgeData[sectionKey]) {
+                    const item = knowledgeData[sectionKey].items.find(item => item.title === itemTitle);
+                    if (item) {
+                        Object.assign(item, newData);
+                        renderKnowledgeSections();
+                        addInteractivity();
+                    }
+                }
+            },
+            
+            // 获取所有数据
+            getData: function() {
+                return {
+                    knowledge: knowledgeData,
+                    flow: flowData
+                };
+            },
+            
+            // 重新渲染界面
+            refresh: function() {
+                renderKnowledgeSections();
+                renderFlowDiagram();
+                addInteractivity();
+                addScrollAnimations();
+            }
+        };
     </script>
 </body>
 </html>
