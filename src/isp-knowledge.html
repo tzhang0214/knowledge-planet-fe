@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISP图像处理知识库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .knowledge-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .knowledge-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .knowledge-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .knowledge-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .knowledge-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .knowledge-item:hover::before {
+            left: 100%;
+        }
+
+        .knowledge-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .knowledge-item p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .flow-diagram {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .flow-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .flow-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-width: 150px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .flow-step p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .knowledge-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-container {
+                flex-direction: column;
+            }
+            
+            .flow-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ISP图像处理知识库</h1>
+            <p>Image Signal Processor 图像信号处理器完整知识体系</p>
+        </div>
+
+        <div class="knowledge-grid">
+            <!-- 相机成像原理 -->
+            <div class="knowledge-section">
+                <div class="section-title">📷 相机成像原理</div>
+                <div class="knowledge-items">
+                    <div class="knowledge-item">
+                        <h3>光学系统</h3>
+                        <p>镜头组、光圈、焦距等光学元件组成成像系统</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>感光元件</h3>
+                        <p>CMOS/CCD传感器将光信号转换为电信号</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>光电转换</h3>
+                        <p>光子激发电子，产生电荷积累和电压信号</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>采样量化</h3>
+                        <p>空间和时间维度的离散化采样过程</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>色彩滤波</h3>
+                        <p>Bayer阵列等色彩滤镜实现色彩分离</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>噪声来源</h3>
+                        <p>光子噪声、暗电流噪声、读出噪声等</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISP处理算法 -->
+            <div class="knowledge-section">
+                <div class="section-title">🔬 ISP处理算法</div>
+                <div class="knowledge-items">
+                    <div class="knowledge-item">
+                        <h3>去马赛克</h3>
+                        <p>Demosaic算法从Bayer阵列重建全彩图像</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>白平衡</h3>
+                        <p>调整RGB通道比例，校正色温偏差</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>降噪算法</h3>
+                        <p>双边滤波、非局部均值等降噪技术</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>色彩校正</h3>
+                        <p>色彩空间转换和色彩增强处理</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>锐化增强</h3>
+                        <p>拉普拉斯算子、USM等锐化算法</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>伽马校正</h3>
+                        <p>非线性亮度调整，适应人眼视觉特性</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISP处理通路 -->
+            <div class="knowledge-section">
+                <div class="section-title">🔄 ISP处理通路</div>
+                <div class="knowledge-items">
+                    <div class="knowledge-item">
+                        <h3>原始数据</h3>
+                        <p>Raw格式图像数据，包含传感器原始信息</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>预处理</h3>
+                        <p>黑电平校正、坏点检测、镜头阴影校正</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>去马赛克</h3>
+                        <p>色彩插值，重建完整RGB图像</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>色彩处理</h3>
+                        <p>白平衡、色彩校正、饱和度调整</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>图像增强</h3>
+                        <p>降噪、锐化、对比度增强等</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>后处理</h3>
+                        <p>伽马校正、压缩编码、格式转换</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 软件开发技术栈 -->
+            <div class="knowledge-section">
+                <div class="section-title">💻 软件开发技术栈</div>
+                <div class="knowledge-items">
+                    <div class="knowledge-item">
+                        <h3>编程语言</h3>
+                        <p>C/C++、Python、MATLAB等高性能语言</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>图像处理库</h3>
+                        <p>OpenCV、PIL、scikit-image等</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>并行计算</h3>
+                        <p>OpenCL、CUDA、SIMD指令集优化</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>算法优化</h3>
+                        <p>内存管理、缓存优化、算法复杂度</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>硬件加速</h3>
+                        <p>DSP、GPU、FPGA等专用硬件</p>
+                    </div>
+                    <div class="knowledge-item">
+                        <h3>开发工具</h3>
+                        <p>调试器、性能分析器、代码优化工具</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ISP处理流程图 -->
+        <div class="flow-diagram">
+            <div class="flow-title">🔄 ISP处理流程图</div>
+            <div class="flow-container">
+                <div class="flow-step">
+                    <h3>光学成像</h3>
+                    <p>镜头聚焦成像</p>
+                </div>
+                <div class="flow-step">
+                    <h3>光电转换</h3>
+                    <p>传感器采集</p>
+                </div>
+                <div class="flow-step">
+                    <h3>信号处理</h3>
+                    <p>ISP算法处理</p>
+                </div>
+                <div class="flow-step">
+                    <h3>图像输出</h3>
+                    <p>最终图像</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 ISP图像处理知识库 | 专业图像信号处理技术分享平台</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有知识点添加点击效果
+            const knowledgeItems = document.querySelectorAll('.knowledge-item');
+            
+            knowledgeItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 添加点击动画
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px)';
+                    }, 150);
+                    
+                    // 显示知识点详情（可以扩展为弹窗或详情页）
+                    const title = this.querySelector('h3').textContent;
+                    const description = this.querySelector('p').textContent;
+                    console.log(`知识点: ${title}\n描述: ${description}`);
+                });
+            });
+
+            // 添加滚动动画效果
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // 观察所有知识区块
+            const sections = document.querySelectorAll('.knowledge-section, .flow-diagram');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'all 0.6s ease';
+                observer.observe(section);
+            });
+
+            // 添加键盘导航支持
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    // Tab键导航时添加焦点样式
+                    const focusedElement = document.activeElement;
+                    if (focusedElement.classList.contains('knowledge-item')) {
+                        focusedElement.style.outline = '3px solid #4ecdc4';
+                        focusedElement.style.outlineOffset = '2px';
+                    }
+                }
+            });
+
+            // 添加触摸设备支持
+            if ('ontouchstart' in window) {
+                knowledgeItems.forEach(item => {
+                    item.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.95)';
+                    });
+                    
+                    item.addEventListener('touchend', function() {
+                        this.style.transform = 'translateY(-5px)';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
