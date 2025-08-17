@@ -506,13 +506,22 @@
                     <div class="section-title">${section.title}</div>
                     <div class="knowledge-items">
                         ${section.items.map(item => `
-                            <a href="${item.link}" target="_blank" class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
-                                <div class="status-badge ${item.status}">
-                                    ${item.status === 'completed' ? '✓' : item.status === 'pending' ? '?' : '⏳'}
-                                </div>
-                                <h3>${item.title}</h3>
-                                <p>${item.description}</p>
-                            </a>
+                            ${item.status === 'future' ? 
+                                `<div class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
+                                    <div class="status-badge ${item.status}">
+                                        ⏳
+                                    </div>
+                                    <h3>${item.title}</h3>
+                                    <p>${item.description}</p>
+                                </div>` :
+                                `<a href="${item.link}" target="_blank" class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
+                                    <div class="status-badge ${item.status}">
+                                        ${item.status === 'completed' ? '✓' : '?'}
+                                    </div>
+                                    <h3>${item.title}</h3>
+                                    <p>${item.description}</p>
+                                </a>`
+                            }
                         `).join('')}
                     </div>
                 `;
