@@ -1,0 +1,43 @@
+%% 生成建议：在Draw.io/VSCode插件中运行此代码
+graph LR
+    subgraph 传感器输入
+    A[MIPI CSI-2接收器] --> B[RAW12/14bit数据]
+    end
+    
+    subgraph RAW域处理
+    B --> C[黑电平校正 BLC]
+    C --> D[镜头阴影校正 LSC]
+    D --> E[坏点校正 DPC]
+    E --> F[HDR融合引擎]
+    end
+    
+    subgraph RGB域处理
+    F --> G[去马赛克 Demosaic]
+    G --> H[自动白平衡 AWB]
+    H --> I[色彩校正矩阵 CCM]
+    I --> J[Gamma校正]
+    end
+    
+    subgraph YUV域处理
+    J --> K[RGB→YUV转换]
+    K --> L[2D/3D降噪]
+    L --> M[图像锐化]
+    M --> N[缩放 Scale]
+    end
+    
+    subgraph 输出
+    N --> O[MIPI CSI-2发射器]
+    N --> P[视频编码器]
+    end
+    
+    subgraph 内存子系统
+    Q[DDR控制器] <--> F
+    Q <--> J
+    Q <--> N
+    end
+    
+    style A fill:#f9f,stroke:#333
+    style C fill:#f96,stroke:#333
+    style G fill:#6f9,stroke:#333
+    style K fill:#69f,stroke:#333
+    style O fill:#9f9,stroke:#333

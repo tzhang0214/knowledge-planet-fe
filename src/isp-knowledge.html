@@ -65,46 +65,175 @@
 
         .flow-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: row;
             gap: 20px;
             align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 200px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: relative;
         }
 
         .flow-step {
             background: linear-gradient(135deg, #4ecdc4, #44a08d);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            min-width: 150px;
+            min-width: 100px;
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
 
-        .flow-step::after {
-            content: '→';
-            position: absolute;
-            right: -25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 2rem;
-            color: #333;
-        }
-
-        .flow-step:last-child::after {
-            display: none;
+        .flow-step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         .flow-step h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .flow-step p {
-            font-size: 0.9rem;
+            font-size: 0.6rem;
             opacity: 0.9;
+            line-height: 1.1;
         }
+
+        /* 不同域的颜色 */
+        .flow-step.sensor {
+            background: linear-gradient(135deg, #f9f, #e91e63);
+        }
+
+        .flow-step.raw {
+            background: linear-gradient(135deg, #f96, #ff9800);
+        }
+
+        .flow-step.rgb {
+            background: linear-gradient(135deg, #6f9, #4caf50);
+        }
+
+        .flow-step.yuv {
+            background: linear-gradient(135deg, #69f, #2196f3);
+        }
+
+        .flow-step.output {
+            background: linear-gradient(135deg, #9f9, #8bc34a);
+        }
+
+        .flow-step.memory {
+            background: linear-gradient(135deg, #ff9, #ffc107);
+            color: #333;
+        }
+
+        /* 流动箭头 */
+        .flow-arrow {
+            position: relative;
+            width: 30px;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-arrow::before {
+            content: '→';
+            font-size: 1.2rem;
+            color: #333;
+            animation: flowMove 2s infinite;
+        }
+
+        .flow-arrow.vertical::before {
+            content: '↓';
+            animation: flowMoveVertical 2s infinite;
+        }
+
+        .flow-arrow.feedback::before {
+            content: '↻';
+            animation: flowRotate 2s infinite;
+        }
+
+        @keyframes flowMove {
+            0% { transform: translateX(-3px); opacity: 0.3; }
+            50% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(3px); opacity: 0.3; }
+        }
+
+        @keyframes flowMoveVertical {
+            0% { transform: translateY(-3px); opacity: 0.3; }
+            50% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(3px); opacity: 0.3; }
+        }
+
+        @keyframes flowRotate {
+            0% { transform: rotate(0deg); opacity: 0.3; }
+            50% { transform: rotate(180deg); opacity: 1; }
+            100% { transform: rotate(360deg); opacity: 0.3; }
+        }
+
+        /* 子图分组 */
+        .flow-subgraph {
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            min-width: 180px;
+            flex-shrink: 0;
+        }
+
+        .flow-subgraph-title {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        /* 内存交互线 */
+        /* .memory-connection {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, #ff9, #ffc107);
+            border-radius: 1px;
+            animation: memoryPulse 2s infinite;
+        }
+
+        @keyframes memoryPulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        } */
+
+        /* 反馈循环线 */
+        /* .feedback-connection {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to right, #6f9, #4caf50);
+            border-radius: 1px;
+            animation: feedbackPulse 2s infinite;
+        }
+
+        @keyframes feedbackPulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        } */
 
         .knowledge-grid {
             display: grid;
@@ -273,16 +402,15 @@
             <p>Image Signal Processor 图像信号处理器完整知识体系</p>
         </div>
 
-        <!-- ISP架构图移到顶部 -->
+        <div id="knowledge-grid" class="knowledge-grid">
+            <!-- 知识点将通过JavaScript动态生成 -->
+        </div>
+
         <div class="flow-diagram">
-            <div class="flow-title">🏗️ ISP架构图</div>
+            <!-- <div class="flow-title">🏗️ ISP架构图</div> -->
             <div id="flow-container" class="flow-container">
                 <!-- 架构图将通过JavaScript动态生成 -->
             </div>
-        </div>
-
-        <div id="knowledge-grid" class="knowledge-grid">
-            <!-- 知识点将通过JavaScript动态生成 -->
         </div>
 
         <div class="footer">
@@ -473,25 +601,152 @@
             }
         };
 
-        // ISP硬件架构图数据配置 - 按照数据流顺序
-        const flowData = [
-            {
-                title: "Sensor",
-                description: "图像传感器\nCMOS/CCD"
+        // ISP硬件架构图数据配置 - 根据dataflow.png设计
+        const flowData = {
+            // 传感器输入
+            sensor: {
+                title: "传感器输入",
+                items: [
+                    {
+                        id: "mipi-receiver",
+                        title: "MIPI CSI-2接收器",
+                        description: "接收传感器数据",
+                        type: "sensor"
+                    },
+                    {
+                        id: "raw-data",
+                        title: "RAW12/14bit数据",
+                        description: "原始传感器数据",
+                        type: "sensor"
+                    }
+                ]
             },
-            {
-                title: "Raw域",
-                description: "原始数据处理\n黑电平校正\n坏点检测"
+            
+            // RAW域处理
+            raw: {
+                title: "RAW域处理",
+                items: [
+                    {
+                        id: "blc",
+                        title: "黑电平校正 BLC",
+                        description: "校正暗电流",
+                        type: "raw"
+                    },
+                    {
+                        id: "lsc",
+                        title: "镜头阴影校正 LSC",
+                        description: "校正镜头阴影",
+                        type: "raw"
+                    },
+                    {
+                        id: "dpc",
+                        title: "坏点校正 DPC",
+                        description: "检测修复坏点",
+                        type: "raw"
+                    },
+                    {
+                        id: "hdr-fusion",
+                        title: "HDR融合引擎",
+                        description: "多帧融合",
+                        type: "raw"
+                    }
+                ]
             },
-            {
-                title: "RGB域",
-                description: "色彩重建\n白平衡\n色彩校正"
+            
+            // RGB域处理
+            rgb: {
+                title: "RGB域处理",
+                items: [
+                    {
+                        id: "demosaic",
+                        title: "去马赛克 Demosaic",
+                        description: "色彩重建",
+                        type: "rgb"
+                    },
+                    {
+                        id: "awb",
+                        title: "自动白平衡 AWB",
+                        description: "色温校正",
+                        type: "rgb"
+                    },
+                    {
+                        id: "ccm",
+                        title: "色彩校正矩阵 CCM",
+                        description: "色彩空间转换",
+                        type: "rgb"
+                    },
+                    {
+                        id: "gamma",
+                        title: "Gamma校正",
+                        description: "非线性校正",
+                        type: "rgb"
+                    }
+                ]
             },
-            {
-                title: "YUV域",
-                description: "亮度色度处理\n降噪锐化\n格式转换"
+            
+            // YUV域处理
+            yuv: {
+                title: "YUV域处理",
+                items: [
+                    {
+                        id: "rgb2yuv",
+                        title: "RGB→YUV转换",
+                        description: "色彩空间转换",
+                        type: "yuv"
+                    },
+                    {
+                        id: "noise-reduction",
+                        title: "2D/3D降噪",
+                        description: "图像降噪",
+                        type: "yuv"
+                    },
+                    {
+                        id: "sharpening",
+                        title: "图像锐化",
+                        description: "边缘增强",
+                        type: "yuv"
+                    },
+                    {
+                        id: "scale",
+                        title: "缩放 Scale",
+                        description: "分辨率调整",
+                        type: "yuv"
+                    }
+                ]
+            },
+            
+            // 输出
+            output: {
+                title: "输出",
+                items: [
+                    {
+                        id: "mipi-transmitter",
+                        title: "MIPI CSI-2发射器",
+                        description: "输出图像数据",
+                        type: "output"
+                    },
+                    {
+                        id: "video-encoder",
+                        title: "视频编码器",
+                        description: "编码压缩",
+                        type: "output"
+                    }
+                ]
+            },
+            
+            // 内存子系统
+            memory: {
+                title: "内存子系统",
+                items: [
+                    {
+                        id: "ddr-controller",
+                        title: "DDR控制器",
+                        description: "内存访问控制",
+                        type: "memory"
+                    }
+                ]
             }
-        ];
+        };
 
         // 渲染知识点区块
         function renderKnowledgeSections() {
@@ -530,22 +785,107 @@
             });
         }
 
-        // 渲染ISP架构图
+        // 渲染ISP架构图 - 水平流水线布局
         function renderFlowDiagram() {
             const container = document.getElementById('flow-container');
             container.innerHTML = '';
 
-            flowData.forEach((step, index) => {
-                const stepElement = document.createElement('div');
-                stepElement.className = 'flow-step';
+            // 创建水平流水线布局
+            const domains = ['sensor', 'raw', 'rgb', 'yuv', 'output'];
+            
+            domains.forEach((domainKey, index) => {
+                const domain = flowData[domainKey];
                 
-                stepElement.innerHTML = `
-                    <h3>${step.title}</h3>
-                    <p>${step.description}</p>
+                // 创建域容器
+                const domainContainer = document.createElement('div');
+                domainContainer.className = 'flow-subgraph';
+                domainContainer.style.minWidth = '180px';
+                
+                // 域标题
+                domainContainer.innerHTML = `
+                    <div class="flow-subgraph-title">${domain.title}</div>
+                    <div class="flow-row">
+                        ${domain.items.map(item => `
+                            <div class="flow-step ${item.type}" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}">
+                                <h3>${item.title}</h3>
+                                <p>${item.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
                 `;
                 
-                container.appendChild(stepElement);
+                container.appendChild(domainContainer);
+                
+                // 在域之间添加箭头（除了最后一个域）
+                if (index < domains.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'flow-arrow';
+                    arrow.style.margin = '0 10px';
+                    container.appendChild(arrow);
+                }
             });
+
+            // 内存子系统（右侧）
+            const memoryContainer = document.createElement('div');
+            memoryContainer.className = 'flow-subgraph';
+            memoryContainer.style.position = 'absolute';
+            memoryContainer.style.right = '20px';
+            memoryContainer.style.top = '50%';
+            memoryContainer.style.transform = 'translateY(-50%)';
+            memoryContainer.style.minWidth = '150px';
+            
+            memoryContainer.innerHTML = `
+                <div class="flow-subgraph-title">${flowData.memory.title}</div>
+                <div class="flow-row">
+                    ${flowData.memory.items.map(item => `
+                        <div class="flow-step ${item.type}" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            container.appendChild(memoryContainer);
+
+            // 添加内存连接线到各个域
+            const memoryConnections = [
+                { left: '200px', top: '80px', height: '60px' },  // RAW域
+                { left: '400px', top: '80px', height: '60px' },  // RGB域  
+                { left: '600px', top: '80px', height: '60px' },  // YUV域
+                { left: '800px', top: '80px', height: '60px' }   // 输出域
+            ];
+
+            // memoryConnections.forEach((connection, index) => {
+            //     const memoryLine = document.createElement('div');
+            //     memoryLine.className = 'memory-connection';
+            //     memoryLine.style.position = 'absolute';
+            //     memoryLine.style.left = connection.left;
+            //     memoryLine.style.top = connection.top;
+            //     memoryLine.style.height = connection.height;
+            //     memoryLine.style.width = '2px';
+            //     container.appendChild(memoryLine);
+            // });
+
+            // 添加反馈循环线（Gamma校正到AWB和CCM）
+            // const feedbackLine1 = document.createElement('div');
+            // feedbackLine1.className = 'feedback-connection';
+            // feedbackLine1.style.position = 'absolute';
+            // feedbackLine1.style.left = '400px';
+            // feedbackLine1.style.top = '120px';
+            // feedbackLine1.style.width = '60px';
+            // feedbackLine1.style.height = '2px';
+            // container.appendChild(feedbackLine1);
+
+            // const feedbackLine2 = document.createElement('div');
+            // feedbackLine2.className = 'feedback-connection';
+            // feedbackLine2.style.position = 'absolute';
+            // feedbackLine2.style.left = '400px';
+            // feedbackLine2.style.top = '120px';
+            // feedbackLine2.style.width = '60px';
+            // feedbackLine2.style.height = '2px';
+            // feedbackLine2.style.transform = 'translateX(60px)';
+            // container.appendChild(feedbackLine2);
         }
 
         // 添加交互效果
@@ -572,6 +912,33 @@
                     showKnowledgeDetail(title, description, status);
                 });
             });
+
+            // 为ISP架构图模块添加点击事件
+            const flowSteps = document.querySelectorAll('.flow-step');
+            flowSteps.forEach(step => {
+                step.addEventListener('click', function(e) {
+                    // 添加点击动画
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-3px)';
+                    }, 150);
+                    
+                    // 显示硬件模块详情
+                    const id = this.dataset.id;
+                    const title = this.dataset.title;
+                    const description = this.dataset.description;
+                    const type = this.classList.contains('sensor') ? 'sensor' :
+                               this.classList.contains('raw') ? 'raw' :
+                               this.classList.contains('rgb') ? 'rgb' :
+                               this.classList.contains('yuv') ? 'yuv' :
+                               this.classList.contains('output') ? 'output' : 'memory';
+                    
+                    console.log(`硬件模块: ${title}\n描述: ${description}\n类型: ${type}\nID: ${id}`);
+                    
+                    // 可以在这里添加弹窗显示硬件模块详细信息的逻辑
+                    showHardwareModuleDetail(id, title, description, type);
+                });
+            });
         }
 
         // 显示知识点详情（可以扩展为弹窗）
@@ -589,6 +956,37 @@
             console.log(description);
             console.log(`状态: ${statusText}`);
             console.log('可以在这里添加更多详细信息...');
+        }
+
+        // 显示硬件模块详情（可以扩展为弹窗）
+        function showHardwareModuleDetail(id, title, description, type) {
+            let typeText = '';
+            switch(type) {
+                case 'sensor':
+                    typeText = '传感器输入模块';
+                    break;
+                case 'raw':
+                    typeText = 'RAW域处理模块';
+                    break;
+                case 'rgb':
+                    typeText = 'RGB域处理模块';
+                    break;
+                case 'yuv':
+                    typeText = 'YUV域处理模块';
+                    break;
+                case 'output':
+                    typeText = '输出模块';
+                    break;
+                case 'memory':
+                    typeText = '内存子系统模块';
+                    break;
+            }
+            
+            console.log(`=== ${title} 硬件模块详情 ===`);
+            console.log(`模块类型: ${typeText}`);
+            console.log(`功能描述: ${description}`);
+            console.log(`模块ID: ${id}`);
+            console.log('可以在这里添加更多硬件技术细节...');
         }
 
         // 添加滚动动画效果
