@@ -40,7 +40,7 @@
             opacity: 0.9;
         }
 
-        /* ISP处理流程图移到顶部 */
+        /* ISP架构图移到顶部 */
         .flow-diagram {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -165,6 +165,11 @@
             color: white;
         }
 
+        .knowledge-item.future {
+            background: linear-gradient(135deg, #9e9e9e, #757575);
+            color: white;
+        }
+
         .knowledge-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
@@ -218,6 +223,11 @@
             color: white;
         }
 
+        .status-badge.future {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
         .footer {
             text-align: center;
             color: white;
@@ -263,11 +273,11 @@
             <p>Image Signal Processor 图像信号处理器完整知识体系</p>
         </div>
 
-        <!-- ISP处理流程图移到顶部 -->
+        <!-- ISP架构图移到顶部 -->
         <div class="flow-diagram">
-            <div class="flow-title">🔄 ISP处理流程图</div>
+            <div class="flow-title">🏗️ ISP架构图</div>
             <div id="flow-container" class="flow-container">
-                <!-- 流程图将通过JavaScript动态生成 -->
+                <!-- 架构图将通过JavaScript动态生成 -->
             </div>
         </div>
 
@@ -395,7 +405,7 @@
                         title: "色彩处理",
                         description: "白平衡、色彩校正、饱和度调整",
                         status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Color_processing"
+                        link: "https://en.wikipedia.org/wiki/Image_post-processing"
                     },
                     {
                         title: "图像增强",
@@ -413,8 +423,8 @@
                     {
                         title: "AI处理模块",
                         description: "深度学习算法进行图像质量增强和智能优化",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Deep_learning"
+                        status: "future",
+                        link: "#"
                     }
                 ]
             },
@@ -444,8 +454,8 @@
                     {
                         title: "算法优化",
                         description: "内存管理、缓存优化、算法复杂度",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Algorithm_optimization"
+                        status: "future",
+                        link: "#"
                     },
                     {
                         title: "硬件加速",
@@ -456,34 +466,30 @@
                     {
                         title: "开发工具",
                         description: "调试器、性能分析器、代码优化工具",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Software_development_tool"
+                        status: "future",
+                        link: ""
                     }
                 ]
             }
         };
 
-        // 流程图数据配置
+        // ISP硬件架构图数据配置 - 按照数据流顺序
         const flowData = [
             {
-                title: "光学成像",
-                description: "镜头聚焦成像"
+                title: "Sensor",
+                description: "图像传感器\nCMOS/CCD"
             },
             {
-                title: "光电转换",
-                description: "传感器采集"
+                title: "Raw域",
+                description: "原始数据处理\n黑电平校正\n坏点检测"
             },
             {
-                title: "信号处理",
-                description: "ISP算法处理"
+                title: "RGB域",
+                description: "色彩重建\n白平衡\n色彩校正"
             },
             {
-                title: "AI增强",
-                description: "深度学习优化"
-            },
-            {
-                title: "图像输出",
-                description: "最终图像"
+                title: "YUV域",
+                description: "亮度色度处理\n降噪锐化\n格式转换"
             }
         ];
 
@@ -502,7 +508,7 @@
                         ${section.items.map(item => `
                             <a href="${item.link}" target="_blank" class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
                                 <div class="status-badge ${item.status}">
-                                    ${item.status === 'completed' ? '✓' : '?'}
+                                    ${item.status === 'completed' ? '✓' : item.status === 'pending' ? '?' : '⏳'}
                                 </div>
                                 <h3>${item.title}</h3>
                                 <p>${item.description}</p>
@@ -515,7 +521,7 @@
             });
         }
 
-        // 渲染流程图
+        // 渲染ISP架构图
         function renderFlowDiagram() {
             const container = document.getElementById('flow-container');
             container.innerHTML = '';
@@ -548,20 +554,31 @@
                     // 显示知识点详情
                     const title = this.dataset.title;
                     const description = this.dataset.description;
-                    console.log(`知识点: ${title}\n描述: ${description}`);
+                    const status = this.classList.contains('completed') ? 'completed' : 
+                                 this.classList.contains('pending') ? 'pending' : 'future';
+                    
+                    console.log(`知识点: ${title}\n描述: ${description}\n状态: ${status}`);
                     
                     // 可以在这里添加弹窗显示详细信息的逻辑
-                    showKnowledgeDetail(title, description);
+                    showKnowledgeDetail(title, description, status);
                 });
             });
         }
 
         // 显示知识点详情（可以扩展为弹窗）
-        function showKnowledgeDetail(title, description) {
-            // 这里可以实现弹窗显示详细信息的逻辑
-            // 例如：显示更多技术细节、相关链接、代码示例等
+        function showKnowledgeDetail(title, description, status) {
+            let statusText = '';
+            if (status === 'completed') {
+                statusText = '知识点已完善';
+            } else if (status === 'pending') {
+                statusText = '知识点待补充';
+            } else if (status === 'future') {
+                statusText = '知识点待建设';
+            }
+            
             console.log(`=== ${title} 详细信息 ===`);
             console.log(description);
+            console.log(`状态: ${statusText}`);
             console.log('可以在这里添加更多详细信息...');
         }
 
