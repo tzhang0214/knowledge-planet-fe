@@ -648,6 +648,161 @@
             background-clip: text;
             font-weight: bold;
         }
+
+        /* 硬件模块详情弹窗样式 */
+        .module-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .module-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .module-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .module-modal.show .module-modal-content {
+            transform: scale(1);
+        }
+
+        .module-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .module-modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .module-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #999;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .module-modal-close:hover {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .module-modal-section {
+            margin-bottom: 25px;
+        }
+
+        .module-modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4ecdc4;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .module-modal-section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            border-radius: 2px;
+        }
+
+        .module-modal-section-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .module-modal-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            text-align: center;
+        }
+
+        .module-modal-more-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .module-modal-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        /* 弹窗滚动条样式 */
+        .module-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .module-modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .module-modal-content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .module-modal-content::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
     </style>
 </head>
 <body>
@@ -695,6 +850,24 @@
 
         <div class="footer">
             <p>© 2024 ISP图像处理知识库 | 专业图像信号处理技术分享平台</p>
+        </div>
+
+        <!-- 硬件模块详情弹窗 -->
+        <div id="module-modal" class="module-modal">
+            <div class="module-modal-content">
+                <div class="module-modal-header">
+                    <h2 class="module-modal-title" id="modal-title">模块详情</h2>
+                    <button class="module-modal-close" id="modal-close">&times;</button>
+                </div>
+                <div id="modal-content">
+                    <!-- 弹窗内容将通过JavaScript动态生成 -->
+                </div>
+                <div class="module-modal-footer">
+                    <a href="#" id="modal-more-link" class="module-modal-more-btn" target="_blank">
+                        点击查看更多
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1311,8 +1484,181 @@
                     }
                 ]
             }
-        };
+                };
 
+        // 硬件模块详细信息数据
+        const moduleDetails = {
+            // MIPI CSI-2接收器
+            "mipi-receiver": {
+                title: "MIPI CSI-2接收器",
+                introduction: "MIPI CSI-2（Camera Serial Interface 2）接收器是ISP芯片中负责接收传感器数据的核心接口模块。它支持多种数据格式和传输协议，确保高速、可靠的数据传输。",
+                principle: "采用差分信号传输技术，通过时钟和数据线的同步传输实现高速串行通信。支持多种数据格式（RAW8/10/12/14bit），具备自动时钟恢复和数据重同步功能。",
+                constraints: "需要满足MIPI联盟的电气规范，支持1-4通道传输，最高可达6Gbps传输速率。对信号完整性要求较高，需要精确的阻抗匹配和EMI防护。",
+                link: "https://www.mipi.org/specifications/csi-2"
+            },
+            
+            // RAW数据
+            "raw-data": {
+                title: "RAW12/14bit数据",
+                introduction: "RAW格式数据是传感器输出的原始图像数据，包含未经处理的像素信息。12/14bit精度提供了丰富的动态范围和色彩深度。",
+                principle: "每个像素包含一个数值，表示该像素位置的光强度。Bayer阵列排列的像素通过不同的色彩滤镜获得对应的色彩信息。",
+                constraints: "数据量大，需要高速缓存和传输带宽。对存储空间要求高，需要支持多种数据格式的灵活处理。",
+                link: "https://en.wikipedia.org/wiki/Raw_image_format"
+            },
+            
+            // 黑电平校正
+            "blc": {
+                title: "黑电平校正 BLC",
+                introduction: "黑电平校正（Black Level Correction）是ISP处理流程中的第一步，用于校正传感器的暗电流偏移，确保图像的黑电平准确。",
+                principle: "通过减去预设的黑电平偏移值，将暗电流产生的基准电平调整到零。可以采用固定值或自适应算法进行校正。",
+                constraints: "需要精确的暗电流测量，对温度变化敏感。校正精度直接影响图像的对比度和动态范围。",
+                link: "https://en.wikipedia.org/wiki/Black_level"
+            },
+            
+            // 镜头阴影校正
+            "lsc": {
+                title: "镜头阴影校正 LSC",
+                introduction: "镜头阴影校正（Lens Shading Correction）用于补偿镜头的光学特性导致的图像边缘亮度衰减现象。",
+                principle: "通过预计算的增益矩阵对图像进行逐像素校正，边缘区域使用较高的增益值来补偿亮度损失。",
+                constraints: "需要针对不同镜头进行校准，存储空间要求较高。校正过度可能导致噪声放大。",
+                link: "https://en.wikipedia.org/wiki/Vignetting"
+            },
+            
+            // 坏点校正
+            "dpc": {
+                title: "坏点校正 DPC",
+                introduction: "坏点校正（Defective Pixel Correction）用于检测和修复传感器中的坏点，提高图像质量。",
+                principle: "通过比较像素值与周围像素的差异来检测坏点，使用插值算法计算坏点的正确值进行替换。",
+                constraints: "需要实时处理，算法复杂度影响处理延迟。过度校正可能影响图像细节。",
+                link: "https://en.wikipedia.org/wiki/Dead_pixel"
+            },
+            
+            // HDR融合引擎
+            "hdr-fusion": {
+                title: "HDR融合引擎",
+                introduction: "HDR（High Dynamic Range）融合引擎通过融合多帧不同曝光时间的图像，扩展图像的动态范围。",
+                principle: "采用权重融合算法，根据像素的饱和度和噪声水平动态调整融合权重，生成高动态范围的图像。",
+                constraints: "需要多帧缓存，处理延迟较高。融合算法复杂，对计算资源要求高。",
+                link: "https://en.wikipedia.org/wiki/High_dynamic_range"
+            },
+            
+            // 去马赛克
+            "demosaic": {
+                title: "去马赛克 Demosaic",
+                introduction: "去马赛克算法将Bayer阵列的单色像素重建为全彩色图像，是ISP处理流程中的关键步骤。",
+                principle: "通过插值算法，利用周围像素的色彩信息来估计缺失的色彩分量。支持多种插值算法如双线性、双三次等。",
+                constraints: "算法复杂度影响处理速度，插值质量影响图像清晰度。边缘区域容易出现伪色。",
+                link: "https://en.wikipedia.org/wiki/Demosaicing"
+            },
+            
+            // 自动白平衡
+            "awb": {
+                title: "自动白平衡 AWB",
+                introduction: "自动白平衡（Auto White Balance）自动调整图像的色温，使白色物体在不同光照条件下呈现真实的白色。",
+                principle: "基于灰度世界假设或白点检测算法，计算RGB通道的增益系数，调整色彩平衡。",
+                constraints: "对光照条件敏感，复杂场景下可能出现误判。需要实时调整，算法稳定性要求高。",
+                link: "https://en.wikipedia.org/wiki/Color_balance"
+            },
+            
+            // 色彩校正矩阵
+            "ccm": {
+                title: "色彩校正矩阵 CCM",
+                introduction: "色彩校正矩阵（Color Correction Matrix）用于校正传感器的色彩响应，确保色彩还原的准确性。",
+                principle: "通过3x3矩阵变换，调整RGB通道之间的比例关系，补偿传感器的色彩偏差。",
+                constraints: "需要针对不同传感器进行校准，矩阵系数影响色彩饱和度和色调。",
+                link: "https://en.wikipedia.org/wiki/Color_correction"
+            },
+            
+            // Gamma校正
+            "gamma": {
+                title: "Gamma校正",
+                introduction: "Gamma校正用于调整图像的亮度响应曲线，使其符合人眼的视觉特性，提高图像的主观质量。",
+                principle: "通过非线性变换函数调整像素值，通常使用幂函数进行校正，补偿显示设备的非线性特性。",
+                constraints: "校正参数影响图像对比度，过度校正可能导致细节丢失。",
+                link: "https://en.wikipedia.org/wiki/Gamma_correction"
+            },
+            
+            // RGB到YUV转换
+            "rgb2yuv": {
+                title: "RGB→YUV转换",
+                introduction: "RGB到YUV色彩空间转换将RGB图像转换为亮度和色度分离的YUV格式，便于后续处理。",
+                principle: "通过线性变换矩阵将RGB值转换为Y（亮度）、U和V（色度）分量，支持多种YUV标准。",
+                constraints: "转换精度影响色彩还原质量，需要浮点运算支持。",
+                link: "https://en.wikipedia.org/wiki/YUV"
+            },
+            
+            // 降噪
+            "noise-reduction": {
+                title: "2D/3D降噪",
+                introduction: "2D/3D降噪算法用于减少图像噪声，提高图像质量。2D降噪处理单帧，3D降噪利用多帧信息。",
+                principle: "2D降噪使用空间滤波算法，3D降噪结合时间域信息，通过运动检测和帧间融合实现降噪。",
+                constraints: "3D降噪需要帧缓存，处理延迟较高。降噪强度影响图像细节保留。",
+                link: "https://en.wikipedia.org/wiki/Noise_reduction"
+            },
+            
+            // 图像锐化
+            "sharpening": {
+                title: "图像锐化",
+                introduction: "图像锐化算法增强图像的边缘和细节，提高图像的清晰度和视觉冲击力。",
+                principle: "通过高通滤波器突出图像的高频成分，常用的有拉普拉斯算子、USM（Unsharp Masking）等。",
+                constraints: "锐化过度可能产生振铃效应，增加噪声。需要根据图像内容自适应调整参数。",
+                link: "https://en.wikipedia.org/wiki/Unsharp_masking"
+            },
+            
+            // 缩放
+            "scale": {
+                title: "缩放 Scale",
+                introduction: "图像缩放模块用于调整图像分辨率，支持放大和缩小操作，满足不同输出需求。",
+                principle: "采用插值算法进行像素重采样，支持最近邻、双线性、双三次等插值方法。",
+                constraints: "插值质量影响图像清晰度，计算复杂度随缩放比例增加。",
+                link: "https://en.wikipedia.org/wiki/Image_scaling"
+            },
+            
+            // 缩放 Scale2（版本1特有）
+            "scale2": {
+                title: "缩放 Scale2",
+                introduction: "Scale2是版本1中优化的缩放模块，采用改进的插值算法，提供更高质量的图像缩放效果。",
+                principle: "结合边缘检测的自适应插值算法，在保持边缘清晰度的同时减少锯齿和振铃效应。",
+                constraints: "算法复杂度较高，需要额外的边缘检测计算资源。",
+                link: "https://en.wikipedia.org/wiki/Image_scaling"
+            },
+            
+            // 输出发射器
+            "mipi-transmitter": {
+                title: "MIPI CSI-2发射器",
+                introduction: "MIPI CSI-2发射器负责将处理后的图像数据输出到下游设备，如显示控制器或编码器。",
+                principle: "将并行数据转换为串行差分信号，支持多种数据格式和传输协议。",
+                constraints: "需要满足MIPI电气规范，支持高速传输和多种数据格式。",
+                link: "https://www.mipi.org/specifications/csi-2"
+            },
+            
+            // 视频编码器
+            "video-encoder": {
+                title: "视频编码器",
+                introduction: "视频编码器将图像数据压缩编码，减少存储和传输带宽需求，支持多种编码标准。",
+                principle: "采用帧内和帧间压缩技术，利用空间和时间相关性进行数据压缩。",
+                constraints: "编码质量与压缩率成反比，需要平衡质量和带宽需求。",
+                link: "https://en.wikipedia.org/wiki/Video_codec"
+            },
+            
+            // DDR控制器
+            "ddr-controller": {
+                title: "DDR控制器",
+                introduction: "DDR控制器管理外部DDR内存的访问，为ISP处理提供高速数据缓存和帧缓冲。",
+                principle: "实现DDR协议，管理地址映射、时序控制和数据缓冲，支持突发传输和预取操作。",
+                constraints: "需要满足DDR时序要求，带宽和延迟影响系统性能。",
+                link: "https://en.wikipedia.org/wiki/DDR_SDRAM"
+            },
+            
+            // AI模块（版本2新增）
+            "AI mod2": {
+                title: "AI MOD",
+                introduction: "AI模块是新一代ISP芯片中新增的智能处理单元，采用深度学习算法进行图像质量增强和智能优化。",
+                principle: "基于卷积神经网络（CNN）的推理引擎，支持多种AI模型，实现智能降噪、超分辨率、场景识别等功能。",
+                constraints: "需要较大的片上存储和计算资源，功耗较高。模型精度和推理速度需要平衡。",
+                link: "https://en.wikipedia.org/wiki/Artificial_intelligence"
+            }
+        };
 
         // 渲染知识点区块
         function renderKnowledgeSections() {
@@ -1671,35 +2017,42 @@
             console.log('可以在这里添加更多详细信息...');
         }
 
-        // 显示硬件模块详情（可以扩展为弹窗）
+        // 显示硬件模块详情弹窗
         function showHardwareModuleDetail(id, title, description, type) {
-            let typeText = '';
-            switch(type) {
-                case 'sensor':
-                    typeText = '传感器输入模块';
-                    break;
-                case 'raw':
-                    typeText = 'RAW域处理模块';
-                    break;
-                case 'rgb':
-                    typeText = 'RGB域处理模块';
-                    break;
-                case 'yuv':
-                    typeText = 'YUV域处理模块';
-                    break;
-                case 'output':
-                    typeText = '输出模块';
-                    break;
-                case 'memory':
-                    typeText = '内存子系统模块';
-                    break;
+            // 获取模块详细信息
+            const moduleDetail = moduleDetails[id];
+            if (!moduleDetail) {
+                console.warn(`模块 ${id} 的详细信息未找到`);
+                return;
             }
             
-            console.log(`=== ${title} 硬件模块详情 ===`);
-            console.log(`模块类型: ${typeText}`);
-            console.log(`功能描述: ${description}`);
-            console.log(`模块ID: ${id}`);
-            console.log('可以在这里添加更多硬件技术细节...');
+            // 更新弹窗标题
+            document.getElementById('modal-title').textContent = moduleDetail.title;
+            
+            // 更新弹窗内容
+            const modalContent = document.getElementById('modal-content');
+            modalContent.innerHTML = `
+                <div class="module-modal-section">
+                    <div class="module-modal-section-title">📋 模块简介</div>
+                    <div class="module-modal-section-content">${moduleDetail.introduction}</div>
+                </div>
+                <div class="module-modal-section">
+                    <div class="module-modal-section-title">🔬 实现原理</div>
+                    <div class="module-modal-section-content">${moduleDetail.principle}</div>
+                </div>
+                <div class="module-modal-section">
+                    <div class="module-modal-section-title">⚡ 硬件约束</div>
+                    <div class="module-modal-section-content">${moduleDetail.constraints}</div>
+                </div>
+            `;
+            
+            // 更新"查看更多"链接
+            const moreLink = document.getElementById('modal-more-link');
+            moreLink.href = moduleDetail.link;
+            
+            // 显示弹窗
+            const modal = document.getElementById('module-modal');
+            modal.classList.add('show');
         }
 
         // 添加滚动动画效果
@@ -1781,6 +2134,9 @@
             // 添加版本切换和对比功能
             addVersionControls();
             
+            // 添加弹窗控制功能
+            addModalControls();
+            
             console.log('页面初始化完成');
         });
 
@@ -1843,6 +2199,31 @@
             document.addEventListener('click', function(event) {
                 if (!compareBtn.contains(event.target) && !comparePanel.contains(event.target)) {
                     comparePanel.style.display = 'none';
+                }
+            });
+        }
+
+        // 添加弹窗控制功能
+        function addModalControls() {
+            const modal = document.getElementById('module-modal');
+            const closeBtn = document.getElementById('modal-close');
+            
+            // 关闭按钮点击事件
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('show');
+            });
+            
+            // 点击弹窗外部关闭弹窗
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+            
+            // ESC键关闭弹窗
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
                 }
             });
         }
