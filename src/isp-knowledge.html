@@ -40,85 +40,7 @@
             opacity: 0.9;
         }
 
-        .knowledge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .knowledge-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .knowledge-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .knowledge-item {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .knowledge-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .knowledge-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .knowledge-item:hover::before {
-            left: 100%;
-        }
-
-        .knowledge-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .knowledge-item p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
+        /* ISP处理流程图移到顶部 */
         .flow-diagram {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -126,17 +48,18 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
         }
 
         .flow-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #333;
             margin-bottom: 20px;
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             color: white;
-            border-radius: 15px;
+            border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
@@ -181,6 +104,118 @@
         .flow-step p {
             font-size: 0.9rem;
             opacity: 0.9;
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .knowledge-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 精简标题样式 */
+        .section-title {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .knowledge-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .knowledge-item {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* 知识点状态样式 */
+        .knowledge-item.completed {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .knowledge-item.pending {
+            background: linear-gradient(135deg, #c1c7d3, #c5a4fa);
+            color: white;
+        }
+
+        .knowledge-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .knowledge-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .knowledge-item:hover::before {
+            left: 100%;
+        }
+
+        .knowledge-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .knowledge-item p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* 状态标识 */
+        .status-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .status-badge.completed {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
         }
 
         .footer {
@@ -228,16 +263,16 @@
             <p>Image Signal Processor 图像信号处理器完整知识体系</p>
         </div>
 
-        <div id="knowledge-grid" class="knowledge-grid">
-            <!-- 知识点将通过JavaScript动态生成 -->
-        </div>
-
-        <!-- ISP处理流程图 -->
+        <!-- ISP处理流程图移到顶部 -->
         <div class="flow-diagram">
             <div class="flow-title">🔄 ISP处理流程图</div>
             <div id="flow-container" class="flow-container">
                 <!-- 流程图将通过JavaScript动态生成 -->
             </div>
+        </div>
+
+        <div id="knowledge-grid" class="knowledge-grid">
+            <!-- 知识点将通过JavaScript动态生成 -->
         </div>
 
         <div class="footer">
@@ -254,27 +289,39 @@
                 items: [
                     {
                         title: "光学系统",
-                        description: "镜头组、光圈、焦距等光学元件组成成像系统"
+                        description: "镜头组、光圈、焦距等光学元件组成成像系统",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Camera_lens"
                     },
                     {
                         title: "感光元件",
-                        description: "CMOS/CCD传感器将光信号转换为电信号"
+                        description: "CMOS/CCD传感器将光信号转换为电信号",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Image_sensor"
                     },
                     {
                         title: "光电转换",
-                        description: "光子激发电子，产生电荷积累和电压信号"
+                        description: "光子激发电子，产生电荷积累和电压信号",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Photoelectric_effect"
                     },
                     {
                         title: "采样量化",
-                        description: "空间和时间维度的离散化采样过程"
+                        description: "空间和时间维度的离散化采样过程",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Sampling_(signal_processing)"
                     },
                     {
                         title: "色彩滤波",
-                        description: "Bayer阵列等色彩滤镜实现色彩分离"
+                        description: "Bayer阵列等色彩滤镜实现色彩分离",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Bayer_filter"
                     },
                     {
                         title: "噪声来源",
-                        description: "光子噪声、暗电流噪声、读出噪声等"
+                        description: "光子噪声、暗电流噪声、读出噪声等",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Image_noise"
                     }
                 ]
             },
@@ -285,27 +332,39 @@
                 items: [
                     {
                         title: "去马赛克",
-                        description: "Demosaic算法从Bayer阵列重建全彩图像"
+                        description: "Demosaic算法从Bayer阵列重建全彩图像",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Demosaicing"
                     },
                     {
                         title: "白平衡",
-                        description: "调整RGB通道比例，校正色温偏差"
+                        description: "调整RGB通道比例，校正色温偏差",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Color_balance"
                     },
                     {
                         title: "降噪算法",
-                        description: "双边滤波、非局部均值等降噪技术"
+                        description: "双边滤波、非局部均值等降噪技术",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Noise_reduction"
                     },
                     {
                         title: "色彩校正",
-                        description: "色彩空间转换和色彩增强处理"
+                        description: "色彩空间转换和色彩增强处理",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Color_correction"
                     },
                     {
                         title: "锐化增强",
-                        description: "拉普拉斯算子、USM等锐化算法"
+                        description: "拉普拉斯算子、USM等锐化算法",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Unsharp_masking"
                     },
                     {
                         title: "伽马校正",
-                        description: "非线性亮度调整，适应人眼视觉特性"
+                        description: "非线性亮度调整，适应人眼视觉特性",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Gamma_correction"
                     }
                 ]
             },
@@ -316,32 +375,46 @@
                 items: [
                     {
                         title: "原始数据",
-                        description: "Raw格式图像数据，包含传感器原始信息"
+                        description: "Raw格式图像数据，包含传感器原始信息",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Raw_image_format"
                     },
                     {
                         title: "预处理",
-                        description: "黑电平校正、坏点检测、镜头阴影校正"
+                        description: "黑电平校正、坏点检测、镜头阴影校正",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Image_preprocessing"
                     },
                     {
                         title: "去马赛克",
-                        description: "色彩插值，重建完整RGB图像"
+                        description: "色彩插值，重建完整RGB图像",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Demosaicing"
                     },
                     {
                         title: "色彩处理",
-                        description: "白平衡、色彩校正、饱和度调整"
+                        description: "白平衡、色彩校正、饱和度调整",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Color_processing"
                     },
                     {
                         title: "图像增强",
-                        description: "降噪、锐化、对比度增强等"
+                        description: "降噪、锐化、对比度增强等",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Image_enhancement"
                     },
                     {
                         title: "后处理",
-                        description: "伽马校正、压缩编码、格式转换"
+                        description: "伽马校正、压缩编码、格式转换",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Image_post-processing"
                     },
-                    // 新增AI处理模块 - 只需要在这里添加数据即可
+                    // 新增AI处理模块
                     {
                         title: "AI处理模块",
-                        description: "深度学习算法进行图像质量增强和智能优化"
+                        description: "深度学习算法进行图像质量增强和智能优化",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Deep_learning"
                     }
                 ]
             },
@@ -352,27 +425,39 @@
                 items: [
                     {
                         title: "编程语言",
-                        description: "C/C++、Python、MATLAB等高性能语言"
+                        description: "C/C++、Python、MATLAB等高性能语言",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/C%2B%2B"
                     },
                     {
                         title: "图像处理库",
-                        description: "OpenCV、PIL、scikit-image等"
+                        description: "OpenCV、PIL、scikit-image等",
+                        status: "completed",
+                        link: "https://opencv.org/"
                     },
                     {
                         title: "并行计算",
-                        description: "OpenCL、CUDA、SIMD指令集优化"
+                        description: "OpenCL、CUDA、SIMD指令集优化",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/OpenCL"
                     },
                     {
                         title: "算法优化",
-                        description: "内存管理、缓存优化、算法复杂度"
+                        description: "内存管理、缓存优化、算法复杂度",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Algorithm_optimization"
                     },
                     {
                         title: "硬件加速",
-                        description: "DSP、GPU、FPGA等专用硬件"
+                        description: "DSP、GPU、FPGA等专用硬件",
+                        status: "completed",
+                        link: "https://en.wikipedia.org/wiki/Hardware_acceleration"
                     },
                     {
                         title: "开发工具",
-                        description: "调试器、性能分析器、代码优化工具"
+                        description: "调试器、性能分析器、代码优化工具",
+                        status: "pending",
+                        link: "https://en.wikipedia.org/wiki/Software_development_tool"
                     }
                 ]
             }
@@ -415,10 +500,13 @@
                     <div class="section-title">${section.title}</div>
                     <div class="knowledge-items">
                         ${section.items.map(item => `
-                            <div class="knowledge-item" data-title="${item.title}" data-description="${item.description}">
+                            <a href="${item.link}" target="_blank" class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
+                                <div class="status-badge ${item.status}">
+                                    ${item.status === 'completed' ? '✓' : '?'}
+                                </div>
                                 <h3>${item.title}</h3>
                                 <p>${item.description}</p>
-                            </div>
+                            </a>
                         `).join('')}
                     </div>
                 `;
@@ -450,7 +538,7 @@
             const knowledgeItems = document.querySelectorAll('.knowledge-item');
             
             knowledgeItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function(e) {
                     // 添加点击动画
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
