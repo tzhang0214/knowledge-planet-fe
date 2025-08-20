@@ -27,6 +27,7 @@
             text-align: center;
             color: white;
             margin-bottom: 30px;
+            margin-left: 30%;
         }
 
         .header h1 {
@@ -983,6 +984,109 @@
 
         .drawer-menu::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
+        }
+
+        /* 搜索框相关样式 */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-title {
+            transition: transform 0.4s ease;
+            transform-origin: left center;
+        }
+
+        .header-title.shifted {
+            transform: translateX(-80%);
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-icon:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .search-box {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            opacity: 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box.expanded {
+            width: 500px;
+            opacity: 1;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 12px 20px;
+            background: transparent;
+            font-size: 1rem;
+            outline: none;
+            color: #333;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-button {
+            background: transparent;
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            color: #666;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .search-button:hover {
+            color: #4ecdc4;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .search-box.expanded {
+                width: 200px;
+            }
+            
+            .header-title.shifted {
+                transform: translateX(-20%);
+            }
         }
         </style>
 </head>
@@ -2707,6 +2811,105 @@
             }
         }
 
+        // 添加搜索功能
+        function addSearchFunctionality() {
+            // 创建搜索元素
+            const header = document.querySelector('.header');
+            const headerContent = document.createElement('div');
+            headerContent.className = 'header-content';
+            
+            // 保存原有的标题内容
+            const originalContent = header.innerHTML;
+            header.innerHTML = '';
+            
+            headerContent.innerHTML = `
+                <div class="header-title">
+                    <h1>ISP图像处理知识库</h1>
+                    <p>Image Signal Processor 图像信号处理器完整知识体系</p>
+                </div>
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="搜索知识点...">
+                        <button class="search-button">搜索</button>
+                    </div>
+                </div>
+            `;
+            
+            header.appendChild(headerContent);
+            
+            // 获取元素
+            const searchIcon = document.querySelector('.search-icon');
+            const searchBox = document.querySelector('.search-box');
+            const searchInput = document.querySelector('.search-input');
+            const headerTitle = document.querySelector('.header-title');
+            
+            // 点击搜索图标事件
+            searchIcon.addEventListener('click', function() {
+                // 切换搜索框展开状态
+                searchBox.classList.toggle('expanded');
+                
+                // 切换标题位置
+                headerTitle.classList.toggle('shifted');
+                
+                // 如果展开，自动聚焦到输入框
+                if (searchBox.classList.contains('expanded')) {
+                    setTimeout(() => {
+                        searchInput.focus();
+                    }, 400);
+                }
+            });
+            
+            // 搜索按钮事件
+            const searchButton = document.querySelector('.search-button');
+            searchButton.addEventListener('click', function() {
+                performSearch(searchInput.value);
+            });
+            
+            // 回车键搜索
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(searchInput.value);
+                }
+            });
+            
+            // 点击外部关闭搜索框
+            document.addEventListener('click', function(e) {
+                if (!header.contains(e.target) && searchBox.classList.contains('expanded')) {
+                    searchBox.classList.remove('expanded');
+                    headerTitle.classList.remove('shifted');
+                }
+            });
+        }
+
+        // 执行搜索功能
+        function performSearch(query) {
+            if (!query.trim()) return;
+            
+            console.log('搜索关键词:', query);
+            
+            // 这里可以实现实际的搜索逻辑
+            // 例如：搜索知识点、硬件模块等
+            alert(`搜索功能已触发，关键词: ${query}\n(实际项目中会在这里实现搜索逻辑)`);
+            
+            // 可以添加的搜索逻辑示例:
+            /*
+            // 搜索知识点
+            const knowledgeItems = document.querySelectorAll('.knowledge-item');
+            knowledgeItems.forEach(item => {
+                const title = item.querySelector('h3').textContent;
+                const description = item.querySelector('p').textContent;
+                
+                if (title.includes(query) || description.includes(query)) {
+                    // 高亮匹配的项目
+                    item.style.boxShadow = '0 0 0 3px #4ecdc4';
+                    // 滚动到该项目
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+            */
+        }
+
         // 页面初始化
         document.addEventListener('DOMContentLoaded', function() {
             console.log('页面开始初始化...');
@@ -2736,6 +2939,9 @@
 
             // 添加悬停弹窗和抽屉菜单功能
             addHoverPopupAndDrawer();
+
+            // 添加搜索功能
+            addSearchFunctionality();
             
             console.log('页面初始化完成');
         });
