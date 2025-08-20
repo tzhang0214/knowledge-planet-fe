@@ -803,7 +803,188 @@
         .module-modal-content::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
-    </style>
+
+        /* 添加抽屉菜单样式 */
+        .drawer-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .drawer-menu.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .drawer-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #999;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drawer-close:hover {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .drawer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .drawer-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .drawer-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .drawer-item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-item-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .drawer-more-link {
+            font-size: 0.85rem;
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .drawer-more-link:hover {
+            color: #44a08d;
+            text-decoration: underline;
+        }
+
+        /* 悬停弹窗样式 */
+        .hover-popup {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            min-width: 250px;
+            max-width: 300px;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .hover-popup.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .popup-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popup-item {
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #eee;
+        }
+
+        .popup-item-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .popup-item-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* 抽屉菜单滚动条样式 */
+        .drawer-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .drawer-menu::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .drawer-menu::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .drawer-menu::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        </style>
 </head>
 <body>
     <div class="container">
@@ -872,7 +1053,7 @@
     </div>
 
     <script>
-        // 知识点数据配置 - 在这里修改数据即可更新界面
+        // 知识点数据配置
         const knowledgeData = {
             // 相机成像原理
             "camera-imaging": {
@@ -881,38 +1062,32 @@
                     {
                         title: "光学系统",
                         description: "镜头组、光圈、焦距等光学元件组成成像系统",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Camera_lens"
+                        status: "completed"
                     },
                     {
                         title: "感光元件",
                         description: "CMOS/CCD传感器将光信号转换为电信号",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Image_sensor"
+                        status: "completed"
                     },
                     {
                         title: "光电转换",
                         description: "光子激发电子，产生电荷积累和电压信号",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Photoelectric_effect"
+                        status: "completed"
                     },
                     {
                         title: "采样量化",
                         description: "空间和时间维度的离散化采样过程",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Sampling_(signal_processing)"
+                        status: "pending"
                     },
                     {
                         title: "色彩滤波",
                         description: "Bayer阵列等色彩滤镜实现色彩分离",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Bayer_filter"
+                        status: "completed"
                     },
                     {
                         title: "噪声来源",
                         description: "光子噪声、暗电流噪声、读出噪声等",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Image_noise"
+                        status: "pending"
                     }
                 ]
             },
@@ -924,38 +1099,32 @@
                     {
                         title: "去马赛克",
                         description: "Demosaic算法从Bayer阵列重建全彩图像",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Demosaicing"
+                        status: "completed"
                     },
                     {
                         title: "白平衡",
                         description: "调整RGB通道比例，校正色温偏差",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Color_balance"
+                        status: "completed"
                     },
                     {
                         title: "降噪算法",
                         description: "双边滤波、非局部均值等降噪技术",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Noise_reduction"
+                        status: "completed"
                     },
                     {
                         title: "色彩校正",
                         description: "色彩空间转换和色彩增强处理",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Color_correction"
+                        status: "completed"
                     },
                     {
                         title: "锐化增强",
                         description: "拉普拉斯算子、USM等锐化算法",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/Unsharp_masking"
+                        status: "pending"
                     },
                     {
                         title: "伽马校正",
                         description: "非线性亮度调整，适应人眼视觉特性",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Gamma_correction"
+                        status: "completed"
                     }
                 ]
             },
@@ -967,45 +1136,38 @@
                     {
                         title: "原始数据",
                         description: "Raw格式图像数据，包含传感器原始信息",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Raw_image_format"
+                        status: "completed"
                     },
                     {
                         title: "预处理",
                         description: "黑电平校正、坏点检测、镜头阴影校正",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Image_preprocessing"
+                        status: "completed"
                     },
                     {
                         title: "去马赛克",
                         description: "色彩插值，重建完整RGB图像",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Demosaicing"
+                        status: "completed"
                     },
                     {
                         title: "色彩处理",
                         description: "白平衡、色彩校正、饱和度调整",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Image_post-processing"
+                        status: "completed"
                     },
                     {
                         title: "图像增强",
                         description: "降噪、锐化、对比度增强等",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Image_enhancement"
+                        status: "completed"
                     },
                     {
                         title: "后处理",
                         description: "伽马校正、压缩编码、格式转换",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Image_post-processing"
+                        status: "completed"
                     },
                     // 新增AI处理模块
                     {
                         title: "AI处理模块",
                         description: "深度学习算法进行图像质量增强和智能优化",
-                        status: "future",
-                        link: "#"
+                        status: "future"
                     }
                 ]
             },
@@ -1017,43 +1179,36 @@
                     {
                         title: "编程语言",
                         description: "C/C++、Python、MATLAB等高性能语言",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/C%2B%2B"
+                        status: "completed"
                     },
                     {
                         title: "图像处理库",
                         description: "OpenCV、PIL、scikit-image等",
-                        status: "completed",
-                        link: "https://opencv.org/"
+                        status: "completed"
                     },
                     {
                         title: "并行计算",
                         description: "OpenCL、CUDA、SIMD指令集优化",
-                        status: "pending",
-                        link: "https://en.wikipedia.org/wiki/OpenCL"
+                        status: "pending"
                     },
                     {
                         title: "算法优化",
                         description: "内存管理、缓存优化、算法复杂度",
-                        status: "future",
-                        link: "#"
+                        status: "future"
                     },
                     {
                         title: "硬件加速",
                         description: "DSP、GPU、FPGA等专用硬件",
-                        status: "completed",
-                        link: "https://en.wikipedia.org/wiki/Hardware_acceleration"
+                        status: "completed"
                     },
                     {
                         title: "开发工具",
                         description: "调试器、性能分析器、代码优化工具",
-                        status: "future",
-                        link: ""
+                        status: "future"
                     }
                 ]
             }
         };
-
         // ISP硬件架构图数据配置 - 根据dataflow.png设计
         const flowData = {
             // 传感器输入
@@ -1659,6 +1814,457 @@
                 link: "https://en.wikipedia.org/wiki/Artificial_intelligence"
             }
         };
+        // 添加悬停弹窗和抽屉菜单功能
+        function addHoverPopupAndDrawer() {
+            // 知识点详细数据
+            const knowledgeDetails = {
+            // 相机成像原理类别
+            "光学系统": {
+                title: "光学系统",
+                items: [
+                    {
+                        title: "镜头组",
+                        description: "由多个透镜组成的光学系统，用于聚焦光线到传感器上",
+                        link: "https://en.wikipedia.org/wiki/Camera_lens"
+                    },
+                    {
+                        title: "光圈",
+                        description: "控制进入镜头的光量，影响景深和曝光",
+                        link: "https://en.wikipedia.org/wiki/Aperture"
+                    },
+                    {
+                        title: "焦距",
+                        description: "镜头中心到传感器的距离，决定视角和放大率",
+                        link: "https://en.wikipedia.org/wiki/Focal_length"
+                    },
+                    {
+                        title: "畸变校正",
+                        description: "校正镜头产生的几何畸变，如桶形畸变和枕形畸变",
+                        link: "https://en.wikipedia.org/wiki/Distortion_(optics)"
+                    }
+                ]
+            },
+            "感光元件": {
+                title: "感光元件",
+                items: [
+                    {
+                        title: "CMOS传感器",
+                        description: "互补金属氧化物半导体传感器，现代相机中最常用的图像传感器",
+                        link: "https://en.wikipedia.org/wiki/CMOS_sensor"
+                    },
+                    {
+                        title: "CCD传感器",
+                        description: "电荷耦合器件传感器，具有高灵敏度和低噪声特性",
+                        link: "https://en.wikipedia.org/wiki/Charge-coupled_device"
+                    },
+                    {
+                        title: "像素结构",
+                        description: "单个感光单元的物理结构和工作原理",
+                        link: "https://en.wikipedia.org/wiki/Photosite"
+                    },
+                    {
+                        title: "量子效率",
+                        description: "传感器将光子转换为电子的效率指标",
+                        link: "https://en.wikipedia.org/wiki/Quantum_efficiency"
+                    }
+                ]
+            },
+            "光电转换": {
+                title: "光电转换",
+                items: [
+                    {
+                        title: "光电效应",
+                        description: "光子激发电子产生电流的物理现象",
+                        link: "https://en.wikipedia.org/wiki/Photoelectric_effect"
+                    },
+                    {
+                        title: "电荷积累",
+                        description: "光电子在像素中积累形成电荷包的过程",
+                        link: "https://en.wikipedia.org/wiki/Charge_coupling"
+                    },
+                    {
+                        title: "电压信号",
+                        description: "电荷转换为电压信号供后续电路处理",
+                        link: "https://en.wikipedia.org/wiki/Voltage"
+                    }
+                ]
+            },
+            "色彩滤波": {
+                title: "色彩滤波",
+                items: [
+                    {
+                        title: "Bayer阵列",
+                        description: "最常见的色彩滤镜阵列，按RGGB模式排列",
+                        link: "https://en.wikipedia.org/wiki/Bayer_filter"
+                    },
+                    {
+                        title: "色彩插值",
+                        description: "通过算法重建全彩色图像的过程",
+                        link: "https://en.wikipedia.org/wiki/Demosaicing"
+                    }
+                ]
+            },
+            
+            // ISP处理算法类别
+            "去马赛克": {
+                title: "去马赛克",
+                items: [
+                    {
+                        title: "Bilinear插值",
+                        description: "双线性插值算法，简单快速但精度有限",
+                        link: "https://en.wikipedia.org/wiki/Bilinear_interpolation"
+                    },
+                    {
+                        title: "边缘感知插值",
+                        description: "根据边缘方向进行插值，减少伪色",
+                        link: "https://en.wikipedia.org/wiki/Demosaicing#Edge-directed_interpolation"
+                    },
+                    {
+                        title: "自适应插值",
+                        description: "根据局部图像特征自适应选择插值方法",
+                        link: "https://en.wikipedia.org/wiki/Demosaicing#Adaptive_filtering"
+                    }
+                ]
+            },
+            "白平衡": {
+                title: "白平衡",
+                items: [
+                    {
+                        title: "灰度世界算法",
+                        description: "假设场景中所有颜色平均值为灰色",
+                        link: "https://en.wikipedia.org/wiki/Color_balance#Gray_world_assumption"
+                    },
+                    {
+                        title: "完美反射算法",
+                        description: "假设场景中存在完美反射体",
+                        link: "https://en.wikipedia.org/wiki/Color_balance#Perfect_reflector_assumption"
+                    },
+                    {
+                        title: "基于学习的方法",
+                        description: "使用机器学习模型预测白平衡参数",
+                        link: "https://en.wikipedia.org/wiki/Color_balance#Learning-based_methods"
+                    }
+                ]
+            },
+            "降噪算法": {
+                title: "降噪算法",
+                items: [
+                    {
+                        title: "空间域降噪",
+                        description: "基于像素邻域信息进行降噪处理",
+                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Spatial_filtering"
+                    },
+                    {
+                        title: "时间域降噪",
+                        description: "利用多帧图像信息进行降噪",
+                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Temporal_filtering"
+                    },
+                    {
+                        title: "混合降噪",
+                        description: "结合空间和时间信息的降噪方法",
+                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Hybrid_methods"
+                    }
+                ]
+            },
+            "色彩校正": {
+                title: "色彩校正",
+                items: [
+                    {
+                        title: "色彩校正矩阵(CCM)",
+                        description: "使用3x3矩阵校正色彩偏差",
+                        link: "https://en.wikipedia.org/wiki/Color_correction_matrix"
+                    },
+                    {
+                        title: "色调映射",
+                        description: "调整图像的色调和饱和度",
+                        link: "https://en.wikipedia.org/wiki/Tone_mapping"
+                    },
+                    {
+                        title: "色彩空间转换",
+                        description: "在不同色彩空间之间转换",
+                        link: "https://en.wikipedia.org/wiki/Color_space"
+                    }
+                ]
+            },
+            "伽马校正": {
+                title: "伽马校正",
+                items: [
+                    {
+                        title: "伽马编码",
+                        description: "对图像进行非线性亮度编码",
+                        link: "https://en.wikipedia.org/wiki/Gamma_correction#Encoding"
+                    },
+                    {
+                        title: "伽马解码",
+                        description: "还原图像的线性亮度信息",
+                        link: "https://en.wikipedia.org/wiki/Gamma_correction#Decoding"
+                    },
+                    {
+                        title: "sRGB标准",
+                        description: "标准的RGB色彩空间伽马值",
+                        link: "https://en.wikipedia.org/wiki/SRGB"
+                    }
+                ]
+            },
+            
+            // ISP处理通路类别
+            "原始数据": {
+                title: "原始数据",
+                items: [
+                    {
+                        title: "RAW格式",
+                        description: "传感器直接输出的原始数据格式",
+                        link: "https://en.wikipedia.org/wiki/Raw_image_format"
+                    },
+                    {
+                        title: "数据打包",
+                        description: "将原始数据按特定格式打包存储",
+                        link: "https://en.wikipedia.org/wiki/Image_file_format"
+                    },
+                    {
+                        title: "元数据",
+                        description: "与图像数据相关的附加信息",
+                        link: "https://en.wikipedia.org/wiki/Exif"
+                    }
+                ]
+            },
+            "预处理": {
+                title: "预处理",
+                items: [
+                    {
+                        title: "黑电平校正",
+                        description: "校正传感器暗电流产生的偏移",
+                        link: "https://en.wikipedia.org/wiki/Black_level"
+                    },
+                    {
+                        title: "坏点校正",
+                        description: "检测并修复传感器中的坏点",
+                        link: "https://en.wikipedia.org/wiki/Dead_pixel"
+                    },
+                    {
+                        title: "镜头阴影校正",
+                        description: "补偿镜头造成的亮度衰减",
+                        link: "https://en.wikipedia.org/wiki/Vignetting"
+                    }
+                ]
+            },
+            "图像增强": {
+                title: "图像增强",
+                items: [
+                    {
+                        title: "对比度增强",
+                        description: "调整图像明暗对比关系",
+                        link: "https://en.wikipedia.org/wiki/Contrast_(vision)#Contrast_enhancement"
+                    },
+                    {
+                        title: "锐化处理",
+                        description: "增强图像边缘和细节信息",
+                        link: "https://en.wikipedia.org/wiki/Unsharp_masking"
+                    },
+                    {
+                        title: "动态范围调整",
+                        description: "优化图像的亮度动态范围",
+                        link: "https://en.wikipedia.org/wiki/Tone_mapping"
+                    }
+                ]
+            },
+            
+            // 软件开发技术栈类别
+            "编程语言": {
+                title: "编程语言",
+                items: [
+                    {
+                        title: "C/C++",
+                        description: "系统级编程语言，性能优异",
+                        link: "https://en.wikipedia.org/wiki/C_(programming_language)"
+                    },
+                    {
+                        title: "Python",
+                        description: "高级脚本语言，开发效率高",
+                        link: "https://en.wikipedia.org/wiki/Python_(programming_language)"
+                    },
+                    {
+                        title: "MATLAB",
+                        description: "科学计算和算法验证平台",
+                        link: "https://en.wikipedia.org/wiki/MATLAB"
+                    }
+                ]
+            },
+            "图像处理库": {
+                title: "图像处理库",
+                items: [
+                    {
+                        title: "OpenCV",
+                        description: "开源计算机视觉库",
+                        link: "https://en.wikipedia.org/wiki/OpenCV"
+                    },
+                    {
+                        title: "ImageMagick",
+                        description: "图像处理工具集",
+                        link: "https://en.wikipedia.org/wiki/ImageMagick"
+                    },
+                    {
+                        title: "VIPS",
+                        description: "高性能图像处理系统",
+                        link: "https://en.wikipedia.org/wiki/VIPS_(software)"
+                    }
+                ]
+            },
+            "硬件加速": {
+                title: "硬件加速",
+                items: [
+                    {
+                        title: "GPU计算",
+                        description: "利用图形处理器进行并行计算",
+                        link: "https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units"
+                    },
+                    {
+                        title: "DSP处理器",
+                        description: "数字信号处理器专用架构",
+                        link: "https://en.wikipedia.org/wiki/Digital_signal_processor"
+                    },
+                    {
+                        title: "FPGA加速",
+                        description: "现场可编程门阵列硬件加速",
+                        link: "https://en.wikipedia.org/wiki/Field-programmable_gate_array"
+                    }
+                ]
+            }
+        };
+
+            // 为知识点添加悬停事件
+            const knowledgeItems = document.querySelectorAll('.knowledge-item');
+            
+            knowledgeItems.forEach(item => {
+                const title = item.querySelector('h3').textContent;
+                
+                // 创建悬停弹窗
+                const popup = document.createElement('div');
+                popup.className = 'hover-popup';
+                document.body.appendChild(popup);
+                
+                let popupTimeout;
+                
+                item.addEventListener('mouseenter', function(e) {
+                    if (knowledgeDetails[title]) {
+                        // 生成弹窗内容
+                        popup.innerHTML = `
+                            <div class="popup-title">${knowledgeDetails[title].title} 相关知识点</div>
+                            <div class="popup-content">
+                                ${knowledgeDetails[title].items.map(detail => `
+                                    <div class="popup-item">
+                                        <div class="popup-item-title">${detail.title}</div>
+                                        <div class="popup-item-description">${detail.description}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        
+                        // 定位弹窗
+                        const rect = item.getBoundingClientRect();
+                        popup.style.left = rect.left + 'px';
+                        popup.style.top = (rect.top + rect.height) + 'px';
+                        
+                        // 显示弹窗
+                        clearTimeout(popupTimeout);
+                        popupTimeout = setTimeout(() => {
+                            popup.classList.add('show');
+                        }, 300);
+                    }
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    clearTimeout(popupTimeout);
+                    popupTimeout = setTimeout(() => {
+                        popup.classList.remove('show');
+                    }, 100);
+                });
+                
+                // 点击事件 - 打开抽屉菜单
+                item.addEventListener('click', function(e) {
+                    e.preventDefault(); // 阻止默认跳转行为
+                    if (knowledgeDetails[title]) {
+                        showDrawerMenu(knowledgeDetails[title]);
+                        // 隐藏弹窗
+                        popup.classList.remove('show');
+                    }
+                });
+                
+                // 弹窗点击事件 - 转换为抽屉菜单
+                popup.addEventListener('click', function(e) {
+                    if (knowledgeDetails[title]) {
+                        showDrawerMenu(knowledgeDetails[title]);
+                        // 隐藏弹窗
+                        popup.classList.remove('show');
+                    }
+                });
+            });
+        }
+
+        // 显示抽屉菜单
+        function showDrawerMenu(data) {
+            // 创建抽屉菜单
+            const drawer = document.createElement('div');
+            drawer.className = 'drawer-menu';
+            drawer.id = 'knowledge-drawer';
+            
+            drawer.innerHTML = `
+                <div class="drawer-header">
+                    <h2 class="drawer-title">${data.title} 详细知识点</h2>
+                    <button class="drawer-close" id="drawer-close">&times;</button>
+                </div>
+                <div class="drawer-content">
+                    ${data.items.map(item => `
+                        <div class="drawer-item">
+                            <div class="drawer-item-title">
+                                ${item.title}
+                                <a href="${item.link}" target="_blank" class="drawer-more-link">查看更多 ></a>
+                            </div>
+                            <div class="drawer-item-description">${item.description}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.body.appendChild(drawer);
+            
+            // 触发打开动画
+            setTimeout(() => {
+                drawer.classList.add('open');
+            }, 10);
+            
+            // 关闭按钮事件
+            document.getElementById('drawer-close').addEventListener('click', function() {
+                closeDrawerMenu(drawer);
+            });
+            
+            // 点击外部关闭
+            drawer.addEventListener('click', function(e) {
+                if (e.target === drawer) {
+                    closeDrawerMenu(drawer);
+                }
+            });
+            
+            // ESC键关闭
+            function handleEscKey(e) {
+                if (e.key === 'Escape') {
+                    closeDrawerMenu(drawer);
+                    document.removeEventListener('keydown', handleEscKey);
+                }
+            }
+            document.addEventListener('keydown', handleEscKey);
+        }
+
+        // 关闭抽屉菜单
+        function closeDrawerMenu(drawer) {
+            drawer.classList.remove('open');
+            // 动画结束后移除元素
+            setTimeout(() => {
+                if (drawer.parentNode) {
+                    drawer.parentNode.removeChild(drawer);
+                }
+            }, 400);
+        }     
 
         // 渲染知识点区块
         function renderKnowledgeSections() {
@@ -1673,22 +2279,13 @@
                     <div class="section-title">${section.title}</div>
                     <div class="knowledge-items">
                         ${section.items.map(item => `
-                            ${item.status === 'future' ? 
-                                `<div class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
-                                    <div class="status-badge ${item.status}">
-                                        ⏳
-                                    </div>
-                                    <h3>${item.title}</h3>
-                                    <p>${item.description}</p>
-                                </div>` :
-                                `<a href="${item.link}" target="_blank" class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
-                                    <div class="status-badge ${item.status}">
-                                        ${item.status === 'completed' ? '✓' : '?'}
-                                    </div>
-                                    <h3>${item.title}</h3>
-                                    <p>${item.description}</p>
-                                </a>`
-                            }
+                            <div class="knowledge-item ${item.status}" data-title="${item.title}" data-description="${item.description}">
+                                <div class="status-badge ${item.status}">
+                                    ${item.status === 'completed' ? '✓' : item.status === 'pending' ? '?' : '⏳'}
+                                </div>
+                                <h3>${item.title}</h3>
+                                <p>${item.description}</p>
+                            </div>
                         `).join('')}
                     </div>
                 `;
@@ -1963,11 +2560,11 @@
                     const title = this.dataset.title;
                     const description = this.dataset.description;
                     const status = this.classList.contains('completed') ? 'completed' : 
-                                 this.classList.contains('pending') ? 'pending' : 'future';
+                                this.classList.contains('pending') ? 'pending' : 'future';
                     
                     console.log(`知识点: ${title}\n描述: ${description}\n状态: ${status}`);
                     
-                    // 可以在这里添加弹窗显示详细信息的逻辑
+                    // 显示知识点详情（可以扩展为弹窗）
                     showKnowledgeDetail(title, description, status);
                 });
             });
@@ -1987,14 +2584,14 @@
                     const title = this.dataset.title;
                     const description = this.dataset.description;
                     const type = this.classList.contains('sensor') ? 'sensor' :
-                               this.classList.contains('raw') ? 'raw' :
-                               this.classList.contains('rgb') ? 'rgb' :
-                               this.classList.contains('yuv') ? 'yuv' :
-                               this.classList.contains('output') ? 'output' : 'memory';
+                            this.classList.contains('raw') ? 'raw' :
+                            this.classList.contains('rgb') ? 'rgb' :
+                            this.classList.contains('yuv') ? 'yuv' :
+                            this.classList.contains('output') ? 'output' : 'memory';
                     
                     console.log(`硬件模块: ${title}\n描述: ${description}\n类型: ${type}\nID: ${id}`);
                     
-                    // 可以在这里添加弹窗显示硬件模块详细信息的逻辑
+                    // 显示硬件模块详情弹窗
                     showHardwareModuleDetail(id, title, description, type);
                 });
             });
@@ -2136,6 +2733,9 @@
             
             // 添加弹窗控制功能
             addModalControls();
+
+            // 添加悬停弹窗和抽屉菜单功能
+            addHoverPopupAndDrawer();
             
             console.log('页面初始化完成');
         });
