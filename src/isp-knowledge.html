@@ -1922,320 +1922,319 @@
         function addHoverPopupAndDrawer() {
             // 知识点详细数据
             const knowledgeDetails = {
-            // 相机成像原理类别
-            "光学系统": {
-                title: "光学系统",
-                items: [
-                    {
-                        title: "镜头组",
-                        description: "由多个透镜组成的光学系统，用于聚焦光线到传感器上",
-                        link: "https://en.wikipedia.org/wiki/Camera_lens"
-                    },
-                    {
-                        title: "光圈",
-                        description: "控制进入镜头的光量，影响景深和曝光",
-                        link: "https://en.wikipedia.org/wiki/Aperture"
-                    },
-                    {
-                        title: "焦距",
-                        description: "镜头中心到传感器的距离，决定视角和放大率",
-                        link: "https://en.wikipedia.org/wiki/Focal_length"
-                    },
-                    {
-                        title: "畸变校正",
-                        description: "校正镜头产生的几何畸变，如桶形畸变和枕形畸变",
-                        link: "https://en.wikipedia.org/wiki/Distortion_(optics)"
-                    }
-                ]
-            },
-            "感光元件": {
-                title: "感光元件",
-                items: [
-                    {
-                        title: "CMOS传感器",
-                        description: "互补金属氧化物半导体传感器，现代相机中最常用的图像传感器",
-                        link: "https://en.wikipedia.org/wiki/CMOS_sensor"
-                    },
-                    {
-                        title: "CCD传感器",
-                        description: "电荷耦合器件传感器，具有高灵敏度和低噪声特性",
-                        link: "https://en.wikipedia.org/wiki/Charge-coupled_device"
-                    },
-                    {
-                        title: "像素结构",
-                        description: "单个感光单元的物理结构和工作原理",
-                        link: "https://en.wikipedia.org/wiki/Photosite"
-                    },
-                    {
-                        title: "量子效率",
-                        description: "传感器将光子转换为电子的效率指标",
-                        link: "https://en.wikipedia.org/wiki/Quantum_efficiency"
-                    }
-                ]
-            },
-            "光电转换": {
-                title: "光电转换",
-                items: [
-                    {
-                        title: "光电效应",
-                        description: "光子激发电子产生电流的物理现象",
-                        link: "https://en.wikipedia.org/wiki/Photoelectric_effect"
-                    },
-                    {
-                        title: "电荷积累",
-                        description: "光电子在像素中积累形成电荷包的过程",
-                        link: "https://en.wikipedia.org/wiki/Charge_coupling"
-                    },
-                    {
-                        title: "电压信号",
-                        description: "电荷转换为电压信号供后续电路处理",
-                        link: "https://en.wikipedia.org/wiki/Voltage"
-                    }
-                ]
-            },
-            "色彩滤波": {
-                title: "色彩滤波",
-                items: [
-                    {
-                        title: "Bayer阵列",
-                        description: "最常见的色彩滤镜阵列，按RGGB模式排列",
-                        link: "https://en.wikipedia.org/wiki/Bayer_filter"
-                    },
-                    {
-                        title: "色彩插值",
-                        description: "通过算法重建全彩色图像的过程",
-                        link: "https://en.wikipedia.org/wiki/Demosaicing"
-                    }
-                ]
-            },
-            
-            // ISP处理算法类别
-            "去马赛克": {
-                title: "去马赛克",
-                items: [
-                    {
-                        title: "Bilinear插值",
-                        description: "双线性插值算法，简单快速但精度有限",
-                        link: "https://en.wikipedia.org/wiki/Bilinear_interpolation"
-                    },
-                    {
-                        title: "边缘感知插值",
-                        description: "根据边缘方向进行插值，减少伪色",
-                        link: "https://en.wikipedia.org/wiki/Demosaicing#Edge-directed_interpolation"
-                    },
-                    {
-                        title: "自适应插值",
-                        description: "根据局部图像特征自适应选择插值方法",
-                        link: "https://en.wikipedia.org/wiki/Demosaicing#Adaptive_filtering"
-                    }
-                ]
-            },
-            "白平衡": {
-                title: "白平衡",
-                items: [
-                    {
-                        title: "灰度世界算法",
-                        description: "假设场景中所有颜色平均值为灰色",
-                        link: "https://en.wikipedia.org/wiki/Color_balance#Gray_world_assumption"
-                    },
-                    {
-                        title: "完美反射算法",
-                        description: "假设场景中存在完美反射体",
-                        link: "https://en.wikipedia.org/wiki/Color_balance#Perfect_reflector_assumption"
-                    },
-                    {
-                        title: "基于学习的方法",
-                        description: "使用机器学习模型预测白平衡参数",
-                        link: "https://en.wikipedia.org/wiki/Color_balance#Learning-based_methods"
-                    }
-                ]
-            },
-            "降噪算法": {
-                title: "降噪算法",
-                items: [
-                    {
-                        title: "空间域降噪",
-                        description: "基于像素邻域信息进行降噪处理",
-                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Spatial_filtering"
-                    },
-                    {
-                        title: "时间域降噪",
-                        description: "利用多帧图像信息进行降噪",
-                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Temporal_filtering"
-                    },
-                    {
-                        title: "混合降噪",
-                        description: "结合空间和时间信息的降噪方法",
-                        link: "https://en.wikipedia.org/wiki/Noise_reduction#Hybrid_methods"
-                    }
-                ]
-            },
-            "色彩校正": {
-                title: "色彩校正",
-                items: [
-                    {
-                        title: "色彩校正矩阵(CCM)",
-                        description: "使用3x3矩阵校正色彩偏差",
-                        link: "https://en.wikipedia.org/wiki/Color_correction_matrix"
-                    },
-                    {
-                        title: "色调映射",
-                        description: "调整图像的色调和饱和度",
-                        link: "https://en.wikipedia.org/wiki/Tone_mapping"
-                    },
-                    {
-                        title: "色彩空间转换",
-                        description: "在不同色彩空间之间转换",
-                        link: "https://en.wikipedia.org/wiki/Color_space"
-                    }
-                ]
-            },
-            "伽马校正": {
-                title: "伽马校正",
-                items: [
-                    {
-                        title: "伽马编码",
-                        description: "对图像进行非线性亮度编码",
-                        link: "https://en.wikipedia.org/wiki/Gamma_correction#Encoding"
-                    },
-                    {
-                        title: "伽马解码",
-                        description: "还原图像的线性亮度信息",
-                        link: "https://en.wikipedia.org/wiki/Gamma_correction#Decoding"
-                    },
-                    {
-                        title: "sRGB标准",
-                        description: "标准的RGB色彩空间伽马值",
-                        link: "https://en.wikipedia.org/wiki/SRGB"
-                    }
-                ]
-            },
-            
-            // ISP处理通路类别
-            "原始数据": {
-                title: "原始数据",
-                items: [
-                    {
-                        title: "RAW格式",
-                        description: "传感器直接输出的原始数据格式",
-                        link: "https://en.wikipedia.org/wiki/Raw_image_format"
-                    },
-                    {
-                        title: "数据打包",
-                        description: "将原始数据按特定格式打包存储",
-                        link: "https://en.wikipedia.org/wiki/Image_file_format"
-                    },
-                    {
-                        title: "元数据",
-                        description: "与图像数据相关的附加信息",
-                        link: "https://en.wikipedia.org/wiki/Exif"
-                    }
-                ]
-            },
-            "预处理": {
-                title: "预处理",
-                items: [
-                    {
-                        title: "黑电平校正",
-                        description: "校正传感器暗电流产生的偏移",
-                        link: "https://en.wikipedia.org/wiki/Black_level"
-                    },
-                    {
-                        title: "坏点校正",
-                        description: "检测并修复传感器中的坏点",
-                        link: "https://en.wikipedia.org/wiki/Dead_pixel"
-                    },
-                    {
-                        title: "镜头阴影校正",
-                        description: "补偿镜头造成的亮度衰减",
-                        link: "https://en.wikipedia.org/wiki/Vignetting"
-                    }
-                ]
-            },
-            "图像增强": {
-                title: "图像增强",
-                items: [
-                    {
-                        title: "对比度增强",
-                        description: "调整图像明暗对比关系",
-                        link: "https://en.wikipedia.org/wiki/Contrast_(vision)#Contrast_enhancement"
-                    },
-                    {
-                        title: "锐化处理",
-                        description: "增强图像边缘和细节信息",
-                        link: "https://en.wikipedia.org/wiki/Unsharp_masking"
-                    },
-                    {
-                        title: "动态范围调整",
-                        description: "优化图像的亮度动态范围",
-                        link: "https://en.wikipedia.org/wiki/Tone_mapping"
-                    }
-                ]
-            },
-            
-            // 软件开发技术栈类别
-            "编程语言": {
-                title: "编程语言",
-                items: [
-                    {
-                        title: "C/C++",
-                        description: "系统级编程语言，性能优异",
-                        link: "https://en.wikipedia.org/wiki/C_(programming_language)"
-                    },
-                    {
-                        title: "Python",
-                        description: "高级脚本语言，开发效率高",
-                        link: "https://en.wikipedia.org/wiki/Python_(programming_language)"
-                    },
-                    {
-                        title: "MATLAB",
-                        description: "科学计算和算法验证平台",
-                        link: "https://en.wikipedia.org/wiki/MATLAB"
-                    }
-                ]
-            },
-            "图像处理库": {
-                title: "图像处理库",
-                items: [
-                    {
-                        title: "OpenCV",
-                        description: "开源计算机视觉库",
-                        link: "https://en.wikipedia.org/wiki/OpenCV"
-                    },
-                    {
-                        title: "ImageMagick",
-                        description: "图像处理工具集",
-                        link: "https://en.wikipedia.org/wiki/ImageMagick"
-                    },
-                    {
-                        title: "VIPS",
-                        description: "高性能图像处理系统",
-                        link: "https://en.wikipedia.org/wiki/VIPS_(software)"
-                    }
-                ]
-            },
-            "硬件加速": {
-                title: "硬件加速",
-                items: [
-                    {
-                        title: "GPU计算",
-                        description: "利用图形处理器进行并行计算",
-                        link: "https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units"
-                    },
-                    {
-                        title: "DSP处理器",
-                        description: "数字信号处理器专用架构",
-                        link: "https://en.wikipedia.org/wiki/Digital_signal_processor"
-                    },
-                    {
-                        title: "FPGA加速",
-                        description: "现场可编程门阵列硬件加速",
-                        link: "https://en.wikipedia.org/wiki/Field-programmable_gate_array"
-                    }
-                ]
-            }
-        };
-
+                // 相机成像原理类别
+                "光学系统": {
+                    title: "光学系统",
+                    items: [
+                        {
+                            title: "镜头组",
+                            description: "由多个透镜组成的光学系统，用于聚焦光线到传感器上",
+                            link: "https://en.wikipedia.org/wiki/Camera_lens"
+                        },
+                        {
+                            title: "光圈",
+                            description: "控制进入镜头的光量，影响景深和曝光",
+                            link: "https://en.wikipedia.org/wiki/Aperture"
+                        },
+                        {
+                            title: "焦距",
+                            description: "镜头中心到传感器的距离，决定视角和放大率",
+                            link: "https://en.wikipedia.org/wiki/Focal_length"
+                        },
+                        {
+                            title: "畸变校正",
+                            description: "校正镜头产生的几何畸变，如桶形畸变和枕形畸变",
+                            link: "https://en.wikipedia.org/wiki/Distortion_(optics)"
+                        }
+                    ]
+                },
+                "感光元件": {
+                    title: "感光元件",
+                    items: [
+                        {
+                            title: "CMOS传感器",
+                            description: "互补金属氧化物半导体传感器，现代相机中最常用的图像传感器",
+                            link: "https://en.wikipedia.org/wiki/CMOS_sensor"
+                        },
+                        {
+                            title: "CCD传感器",
+                            description: "电荷耦合器件传感器，具有高灵敏度和低噪声特性",
+                            link: "https://en.wikipedia.org/wiki/Charge-coupled_device"
+                        },
+                        {
+                            title: "像素结构",
+                            description: "单个感光单元的物理结构和工作原理",
+                            link: "https://en.wikipedia.org/wiki/Photosite"
+                        },
+                        {
+                            title: "量子效率",
+                            description: "传感器将光子转换为电子的效率指标",
+                            link: "https://en.wikipedia.org/wiki/Quantum_efficiency"
+                        }
+                    ]
+                },
+                "光电转换": {
+                    title: "光电转换",
+                    items: [
+                        {
+                            title: "光电效应",
+                            description: "光子激发电子产生电流的物理现象",
+                            link: "https://en.wikipedia.org/wiki/Photoelectric_effect"
+                        },
+                        {
+                            title: "电荷积累",
+                            description: "光电子在像素中积累形成电荷包的过程",
+                            link: "https://en.wikipedia.org/wiki/Charge_coupling"
+                        },
+                        {
+                            title: "电压信号",
+                            description: "电荷转换为电压信号供后续电路处理",
+                            link: "https://en.wikipedia.org/wiki/Voltage"
+                        }
+                    ]
+                },
+                "色彩滤波": {
+                    title: "色彩滤波",
+                    items: [
+                        {
+                            title: "Bayer阵列",
+                            description: "最常见的色彩滤镜阵列，按RGGB模式排列",
+                            link: "https://en.wikipedia.org/wiki/Bayer_filter"
+                        },
+                        {
+                            title: "色彩插值",
+                            description: "通过算法重建全彩色图像的过程",
+                            link: "https://en.wikipedia.org/wiki/Demosaicing"
+                        }
+                    ]
+                },
+                
+                // ISP处理算法类别
+                "去马赛克": {
+                    title: "去马赛克",
+                    items: [
+                        {
+                            title: "Bilinear插值",
+                            description: "双线性插值算法，简单快速但精度有限",
+                            link: "https://en.wikipedia.org/wiki/Bilinear_interpolation"
+                        },
+                        {
+                            title: "边缘感知插值",
+                            description: "根据边缘方向进行插值，减少伪色",
+                            link: "https://en.wikipedia.org/wiki/Demosaicing#Edge-directed_interpolation"
+                        },
+                        {
+                            title: "自适应插值",
+                            description: "根据局部图像特征自适应选择插值方法",
+                            link: "https://en.wikipedia.org/wiki/Demosaicing#Adaptive_filtering"
+                        }
+                    ]
+                },
+                "白平衡": {
+                    title: "白平衡",
+                    items: [
+                        {
+                            title: "灰度世界算法",
+                            description: "假设场景中所有颜色平均值为灰色",
+                            link: "https://en.wikipedia.org/wiki/Color_balance#Gray_world_assumption"
+                        },
+                        {
+                            title: "完美反射算法",
+                            description: "假设场景中存在完美反射体",
+                            link: "https://en.wikipedia.org/wiki/Color_balance#Perfect_reflector_assumption"
+                        },
+                        {
+                            title: "基于学习的方法",
+                            description: "使用机器学习模型预测白平衡参数",
+                            link: "https://en.wikipedia.org/wiki/Color_balance#Learning-based_methods"
+                        }
+                    ]
+                },
+                "降噪算法": {
+                    title: "降噪算法",
+                    items: [
+                        {
+                            title: "空间域降噪",
+                            description: "基于像素邻域信息进行降噪处理",
+                            link: "https://en.wikipedia.org/wiki/Noise_reduction#Spatial_filtering"
+                        },
+                        {
+                            title: "时间域降噪",
+                            description: "利用多帧图像信息进行降噪",
+                            link: "https://en.wikipedia.org/wiki/Noise_reduction#Temporal_filtering"
+                        },
+                        {
+                            title: "混合降噪",
+                            description: "结合空间和时间信息的降噪方法",
+                            link: "https://en.wikipedia.org/wiki/Noise_reduction#Hybrid_methods"
+                        }
+                    ]
+                },
+                "色彩校正": {
+                    title: "色彩校正",
+                    items: [
+                        {
+                            title: "色彩校正矩阵(CCM)",
+                            description: "使用3x3矩阵校正色彩偏差",
+                            link: "https://en.wikipedia.org/wiki/Color_correction_matrix"
+                        },
+                        {
+                            title: "色调映射",
+                            description: "调整图像的色调和饱和度",
+                            link: "https://en.wikipedia.org/wiki/Tone_mapping"
+                        },
+                        {
+                            title: "色彩空间转换",
+                            description: "在不同色彩空间之间转换",
+                            link: "https://en.wikipedia.org/wiki/Color_space"
+                        }
+                    ]
+                },
+                "伽马校正": {
+                    title: "伽马校正",
+                    items: [
+                        {
+                            title: "伽马编码",
+                            description: "对图像进行非线性亮度编码",
+                            link: "https://en.wikipedia.org/wiki/Gamma_correction#Encoding"
+                        },
+                        {
+                            title: "伽马解码",
+                            description: "还原图像的线性亮度信息",
+                            link: "https://en.wikipedia.org/wiki/Gamma_correction#Decoding"
+                        },
+                        {
+                            title: "sRGB标准",
+                            description: "标准的RGB色彩空间伽马值",
+                            link: "https://en.wikipedia.org/wiki/SRGB"
+                        }
+                    ]
+                },
+                
+                // ISP处理通路类别
+                "原始数据": {
+                    title: "原始数据",
+                    items: [
+                        {
+                            title: "RAW格式",
+                            description: "传感器直接输出的原始数据格式",
+                            link: "https://en.wikipedia.org/wiki/Raw_image_format"
+                        },
+                        {
+                            title: "数据打包",
+                            description: "将原始数据按特定格式打包存储",
+                            link: "https://en.wikipedia.org/wiki/Image_file_format"
+                        },
+                        {
+                            title: "元数据",
+                            description: "与图像数据相关的附加信息",
+                            link: "https://en.wikipedia.org/wiki/Exif"
+                        }
+                    ]
+                },
+                "预处理": {
+                    title: "预处理",
+                    items: [
+                        {
+                            title: "黑电平校正",
+                            description: "校正传感器暗电流产生的偏移",
+                            link: "https://en.wikipedia.org/wiki/Black_level"
+                        },
+                        {
+                            title: "坏点校正",
+                            description: "检测并修复传感器中的坏点",
+                            link: "https://en.wikipedia.org/wiki/Dead_pixel"
+                        },
+                        {
+                            title: "镜头阴影校正",
+                            description: "补偿镜头造成的亮度衰减",
+                            link: "https://en.wikipedia.org/wiki/Vignetting"
+                        }
+                    ]
+                },
+                "图像增强": {
+                    title: "图像增强",
+                    items: [
+                        {
+                            title: "对比度增强",
+                            description: "调整图像明暗对比关系",
+                            link: "https://en.wikipedia.org/wiki/Contrast_(vision)#Contrast_enhancement"
+                        },
+                        {
+                            title: "锐化处理",
+                            description: "增强图像边缘和细节信息",
+                            link: "https://en.wikipedia.org/wiki/Unsharp_masking"
+                        },
+                        {
+                            title: "动态范围调整",
+                            description: "优化图像的亮度动态范围",
+                            link: "https://en.wikipedia.org/wiki/Tone_mapping"
+                        }
+                    ]
+                },
+                
+                // 软件开发技术栈类别
+                "编程语言": {
+                    title: "编程语言",
+                    items: [
+                        {
+                            title: "C/C++",
+                            description: "系统级编程语言，性能优异",
+                            link: "https://en.wikipedia.org/wiki/C_(programming_language)"
+                        },
+                        {
+                            title: "Python",
+                            description: "高级脚本语言，开发效率高",
+                            link: "https://en.wikipedia.org/wiki/Python_(programming_language)"
+                        },
+                        {
+                            title: "MATLAB",
+                            description: "科学计算和算法验证平台",
+                            link: "https://en.wikipedia.org/wiki/MATLAB"
+                        }
+                    ]
+                },
+                "图像处理库": {
+                    title: "图像处理库",
+                    items: [
+                        {
+                            title: "OpenCV",
+                            description: "开源计算机视觉库",
+                            link: "https://en.wikipedia.org/wiki/OpenCV"
+                        },
+                        {
+                            title: "ImageMagick",
+                            description: "图像处理工具集",
+                            link: "https://en.wikipedia.org/wiki/ImageMagick"
+                        },
+                        {
+                            title: "VIPS",
+                            description: "高性能图像处理系统",
+                            link: "https://en.wikipedia.org/wiki/VIPS_(software)"
+                        }
+                    ]
+                },
+                "硬件加速": {
+                    title: "硬件加速",
+                    items: [
+                        {
+                            title: "GPU计算",
+                            description: "利用图形处理器进行并行计算",
+                            link: "https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units"
+                        },
+                        {
+                            title: "DSP处理器",
+                            description: "数字信号处理器专用架构",
+                            link: "https://en.wikipedia.org/wiki/Digital_signal_processor"
+                        },
+                        {
+                            title: "FPGA加速",
+                            description: "现场可编程门阵列硬件加速",
+                            link: "https://en.wikipedia.org/wiki/Field-programmable_gate_array"
+                        }
+                    ]
+                }
+            };
             // 为知识点添加悬停事件
             const knowledgeItems = document.querySelectorAll('.knowledge-item');
             
@@ -2305,8 +2304,70 @@
             });
         }
 
+        // 更新抽屉菜单内容
+        function updateDrawerContent(drawer, data) {
+            // 更新标题
+            const titleElement = drawer.querySelector('.drawer-title');
+            if (titleElement) {
+                titleElement.textContent = `${data.title} 详细知识点`;
+            }
+            
+            // 更新内容区域
+            const contentElement = drawer.querySelector('.drawer-content');
+            if (contentElement) {
+                contentElement.innerHTML = data.items.map(item => `
+                    <div class="drawer-item">
+                        <div class="drawer-item-title">
+                            ${item.title}
+                            <a href="${item.link}" target="_blank" class="drawer-more-link">查看更多 ></a>
+                        </div>
+                        <div class="drawer-item-description">${item.description}</div>
+                    </div>
+                `).join('');
+            }
+            
+            // 重新绑定"查看更多"链接事件（如果需要）
+            const moreLinks = drawer.querySelectorAll('.drawer-more-link');
+            moreLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // 可以在这里添加特定的处理逻辑
+                });
+            });
+        }
+
         // 显示抽屉菜单
         function showDrawerMenu(data) {
+            // 检查是否已经存在抽屉菜单
+            const existingDrawer = document.getElementById('knowledge-drawer');
+            
+            if (existingDrawer) {
+                // 如果已存在抽屉菜单，直接更新内容
+                updateDrawerContent(existingDrawer, data);
+            } else {
+                // 如果不存在，创建新的抽屉菜单
+                createNewDrawer(data);
+            }
+        }
+
+        // 关闭抽屉菜单
+        function closeDrawerMenu(drawer, callback) {
+            if (!drawer) return;
+            
+            drawer.classList.remove('open');
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                if (drawer.parentNode) {
+                    drawer.parentNode.removeChild(drawer);
+                }
+                // 如果有回调函数，执行回调
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }, 400);
+        }
+
+        function createNewDrawer(data) {
             // 创建抽屉菜单
             const drawer = document.createElement('div');
             drawer.className = 'drawer-menu';
@@ -2338,7 +2399,8 @@
             }, 10);
             
             // 关闭按钮事件
-            document.getElementById('drawer-close').addEventListener('click', function() {
+            const closeBtn = drawer.querySelector('#drawer-close');
+            closeBtn.addEventListener('click', function() {
                 closeDrawerMenu(drawer);
             });
             
@@ -2358,17 +2420,6 @@
             }
             document.addEventListener('keydown', handleEscKey);
         }
-
-        // 关闭抽屉菜单
-        function closeDrawerMenu(drawer) {
-            drawer.classList.remove('open');
-            // 动画结束后移除元素
-            setTimeout(() => {
-                if (drawer.parentNode) {
-                    drawer.parentNode.removeChild(drawer);
-                }
-            }, 400);
-        }     
 
         // 渲染知识点区块
         function renderKnowledgeSections() {
