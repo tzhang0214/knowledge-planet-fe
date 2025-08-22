@@ -1088,9 +1088,490 @@
                 transform: translateX(-20%);
             }
         }
+
+        /* AI聊天机器人*/
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            user-select: none;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .chatbot-modal {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 500px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            resize: both;
+            min-width: 300px;
+            min-height: 400px;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .chatbot-modal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: move;
+            user-select: none;
+        }
+
+        .chatbot-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            outline: none;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 15px;
+            border-radius: 18px;
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: #f0f0f0;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            background: #f8f8f8;
+            border-top: 1px solid #eee;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .chatbot-input button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            margin-left: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .chatbot-input button:hover {
+            transform: scale(1.05);
+        }
+
+        .chatbot-input button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 滚动条样式 */
+        .chatbot-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-modal {
+                width: calc(100% - 40px);
+                height: 500px;
+                right: 20px;
+                bottom: 100px;
+            }
+            
+            .chatbot-toggle {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
         </style>
 </head>
+
 <body>
+    <!-- AI Chatbot HTML -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" id="chatbotToggle">🤖</button>
+        <div class="chatbot-modal" id="chatbotModal">
+            <div class="chatbot-header">
+                <div class="chatbot-title">ISP知识助手</div>
+                <button class="chatbot-close" id="chatbotClose">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message ai">
+                    您好！我是您的ISP知识助手，可以回答关于图像信号处理的各种问题。请问有什么我可以帮您的吗？
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="请输入您的问题...">
+                <button id="chatbotSend">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 改进的聊天机器人功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotModal = document.getElementById('chatbotModal');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const chatbotSend = document.getElementById('chatbotSend');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const chatbotHeader = document.querySelector('.chatbot-header');
+            
+            // 聊天机器人拖动相关变量
+            let isDragging = false;
+            let isResizing = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+            let dragStartX, dragStartY;
+            let modalStartWidth, modalStartHeight;
+            
+            // Toggle chatbot visibility
+            chatbotToggle.addEventListener('click', function() {
+                chatbotModal.classList.toggle('show');
+                if (chatbotModal.classList.contains('show')) {
+                    // 显示时重置位置
+                    resetPosition();
+                }
+            });
+            
+            // Close chatbot
+            chatbotClose.addEventListener('click', function() {
+                chatbotModal.classList.remove('show');
+            });
+            
+            // Send message function
+            function sendMessage() {
+                const message = chatbotInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatbotInput.value = '';
+                    
+                    // Simulate AI thinking
+                    setTimeout(() => {
+                        const response = generateAIResponse(message);
+                        addMessage(response, 'ai');
+                    }, 1000);
+                }
+            }
+            
+            // Send message on button click
+            chatbotSend.addEventListener('click', sendMessage);
+            
+            // Send message on Enter key
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', sender);
+                messageElement.textContent = text;
+                chatbotMessages.appendChild(messageElement);
+                
+                // Scroll to bottom
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+            
+            // Generate AI response
+            function generateAIResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // ISP相关关键词响应
+                if (lowerMessage.includes('你好') || lowerMessage.includes('您好')) {
+                    return "您好！我是ISP知识助手，可以回答关于图像信号处理的各种问题。请问有什么我可以帮您的吗？";
+                } else if (lowerMessage.includes('isp') && (lowerMessage.includes('什么') || lowerMessage.includes('介绍'))) {
+                    return "ISP是Image Signal Processor（图像信号处理器）的缩写，它是数字相机和手机摄像头中的关键组件，负责将传感器捕获的原始数据处理成高质量的图像。";
+                } else if (lowerMessage.includes('去马赛克') || lowerMessage.includes('demosaic')) {
+                    return "去马赛克是ISP处理流程中的关键步骤，用于从Bayer滤镜阵列的单色像素重建全彩色图像。它通过插值算法利用周围像素的色彩信息来估计缺失的色彩分量。";
+                } else if (lowerMessage.includes('白平衡') || lowerMessage.includes('awb')) {
+                    return "自动白平衡(AWB)用于调整图像的色温，使白色物体在不同光照条件下呈现真实的白色。它基于灰度世界假设或白点检测算法，计算RGB通道的增益系数来调整色彩平衡。";
+                } else if (lowerMessage.includes('bayer') || lowerMessage.includes('拜耳')) {
+                    return "Bayer滤镜是最常见的色彩滤镜阵列，按RGGB模式排列。它使每个像素只捕获一种颜色信息，然后通过去马赛克算法重建完整的RGB图像。";
+                } else if (lowerMessage.includes('降噪') || lowerMessage.includes('噪声')) {
+                    return "ISP中的降噪算法包括2D降噪(空间域)和3D降噪(时间域)。2D降噪处理单帧图像，3D降噪利用多帧信息，通过运动检测和帧间融合实现更好的降噪效果。";
+                } else if (lowerMessage.includes('hdr') || lowerMessage.includes('高动态')) {
+                    return "HDR(高动态范围)技术通过融合多帧不同曝光时间的图像来扩展图像的动态范围，使亮部和暗部细节都能得到较好保留。";
+                } else if (lowerMessage.includes('传感器') || lowerMessage.includes('sensor')) {
+                    return "图像传感器是将光信号转换为电信号的设备，主要有CMOS和CCD两种类型。CMOS传感器因其低功耗和高集成度而被广泛应用于现代相机中。";
+                } else if (lowerMessage.includes('谢谢') || lowerMessage.includes('感谢')) {
+                    return "不客气！如果您还有其他关于ISP的问题，随时可以问我。";
+                } else {
+                    const responses = [
+                        "这是一个很好的问题！ISP技术涉及很多方面，包括图像处理算法、硬件架构等。",
+                        "关于ISP技术，我可以告诉您它在数字成像中起着至关重要的作用，负责将原始传感器数据转换为高质量的图像。",
+                        "ISP(图像信号处理器)是现代相机系统的核心组件，它执行从去马赛克到白平衡等多种图像处理任务。",
+                        "如果您对ISP的某个特定方面感兴趣，比如色彩处理或噪声消除，请具体说明，我可以提供更详细的信息。"
+                    ];
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+            }
+            
+            // 重置窗口位置到默认位置
+            function resetPosition() {
+                xOffset = 0;
+                yOffset = 0;
+                chatbotModal.style.transform = "translate(0, 0)";
+            }
+            
+            // 拖动功能实现
+            chatbotHeader.addEventListener("mousedown", dragStart);
+            document.addEventListener("mousemove", drag);
+            document.addEventListener("mouseup", dragEnd);
+            
+            // 移动端触摸事件支持
+            chatbotHeader.addEventListener("touchstart", dragStart, false);
+            document.addEventListener("touchmove", drag, false);
+            document.addEventListener("touchend", dragEnd, false);
+            
+            function dragStart(e) {
+                if (e.type === "touchstart") {
+                    initialX = e.touches[0].clientX - xOffset;
+                    initialY = e.touches[0].clientY - yOffset;
+                } else {
+                    initialX = e.clientX - xOffset;
+                    initialY = e.clientY - yOffset;
+                }
+                
+                if (e.target === chatbotHeader) {
+                    isDragging = true;
+                    dragStartX = e.clientX || e.touches[0].clientX;
+                    dragStartY = e.clientY || e.touches[0].clientY;
+                }
+            }
+            
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    if (e.type === "touchmove") {
+                        currentX = e.touches[0].clientX - initialX;
+                        currentY = e.touches[0].clientY - initialY;
+                    } else {
+                        currentX = e.clientX - initialX;
+                        currentY = e.clientY - initialY;
+                    }
+                    
+                    xOffset = currentX;
+                    yOffset = currentY;
+                    
+                    // 实时更新位置
+                    chatbotModal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                }
+            }
+            
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+                
+                // 拖动结束后检查是否需要吸附到边缘
+                if (chatbotModal.classList.contains('show')) {
+                    snapToEdge();
+                }
+            }
+            
+            // 边缘吸附功能
+            function snapToEdge() {
+                const modalRect = chatbotModal.getBoundingClientRect();
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // 计算吸附位置
+                let newX = xOffset;
+                let newY = yOffset;
+                
+                // 右边缘吸附并展开
+                if (Math.abs(modalRect.right - windowWidth) < 30) {
+                    newX = windowWidth - chatbotModal.offsetWidth - 10;
+                    // 展开窗口到边缘
+                    expandToEdge('right');
+                }
+                // 左边缘吸附并展开
+                else if (Math.abs(modalRect.left) < 30) {
+                    newX = 10;
+                    // 展开窗口到边缘
+                    expandToEdge('left');
+                }
+                
+                // 下边缘吸附并展开
+                if (Math.abs(modalRect.bottom - windowHeight) < 30) {
+                    newY = windowHeight - chatbotModal.offsetHeight - 10;
+                    // 展开窗口到边缘
+                    expandToEdge('bottom');
+                }
+                // 上边缘吸附并展开
+                else if (Math.abs(modalRect.top) < 30) {
+                    newY = 10;
+                    // 展开窗口到边缘
+                    expandToEdge('top');
+                }
+                
+                // 应用吸附动画
+                if (newX !== xOffset || newY !== yOffset) {
+                    xOffset = newX;
+                    yOffset = newY;
+                    chatbotModal.style.transition = "transform 0.3s ease";
+                    chatbotModal.style.transform = `translate(${newX}px, ${newY}px)`;
+                    
+                    // 动画结束后移除过渡效果
+                    setTimeout(() => {
+                        chatbotModal.style.transition = "none";
+                    }, 300);
+                }
+            }
+            
+            // 展开到边缘功能
+            function expandToEdge(edge) {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const currentWidth = chatbotModal.offsetWidth;
+                const currentHeight = chatbotModal.offsetHeight;
+                
+                // 根据边缘方向展开窗口
+                switch(edge) {
+                    case 'right':
+                        // 展开到右边缘
+                        chatbotModal.style.width = (windowWidth - 20) + 'px';
+                        break;
+                    case 'left':
+                        // 展开到左边缘（保持右边缘位置）
+                        chatbotModal.style.width = (windowWidth - 20) + 'px';
+                        break;
+                    case 'bottom':
+                        // 展开到底部边缘
+                        chatbotModal.style.height = (windowHeight - 20) + 'px';
+                        break;
+                    case 'top':
+                        // 展开到顶部边缘（保持底部位置）
+                        chatbotModal.style.height = (windowHeight - 20) + 'px';
+                        break;
+                }
+            }
+            
+            // 窗口大小改变时重新检查位置
+            window.addEventListener('resize', function() {
+                if (chatbotModal.classList.contains('show')) {
+                    snapToEdge();
+                }
+            });
+        });
+        </script>
+
+
     <div class="container">
         <div class="header">
             <h1>ISP图像处理知识库</h1>
