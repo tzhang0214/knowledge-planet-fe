@@ -1122,10 +1122,13 @@
 
         .chatbot-modal {
             position: fixed;
-            bottom: 120px;
+            /* 使用 left 和 bottom 而不是 right 和 bottom，这样调整大小时左上角位置更容易控制 */
+            left: auto;
             right: 30px;
+            bottom: 120px;
             width: 500px;
             height: 600px;
+            /* 其他样式保持不变 */
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -1137,7 +1140,6 @@
             transform: translateY(20px);
             transition: all 0.3s ease;
             overflow: hidden;
-            resize: both;
             min-width: 300px;
             min-height: 400px;
             max-width: 90vw;
@@ -1148,7 +1150,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
         .chatbot-header {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -1158,6 +1159,7 @@
             justify-content: space-between;
             cursor: move;
             user-select: none;
+            touch-action: none;
         }
 
         .chatbot-title {
@@ -1255,6 +1257,37 @@
             transform: none;
         }
 
+        /* 调整大小区域 */
+        .chatbot-resize-right {
+            position: absolute;
+            top: 0;
+            right: -5px;
+            width: 10px;
+            height: 100%;
+            cursor: ew-resize;
+            z-index: 1002;
+        }
+
+        .chatbot-resize-bottom {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            cursor: ns-resize;
+            z-index: 1002;
+        }
+
+        .chatbot-resize-corner {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 15px;
+            height: 15px;
+            cursor: nwse-resize;
+            z-index: 1003;
+        }
+
         /* 滚动条样式 */
         .chatbot-messages::-webkit-scrollbar {
             width: 8px;
@@ -1311,9 +1344,8 @@
             </div>
         </div>
     </div>
-
     <script>
-        // 改进的聊天机器人功能
+        // 聊天机器人功能
         document.addEventListener('DOMContentLoaded', function() {
             const chatbotToggle = document.getElementById('chatbotToggle');
             const chatbotModal = document.getElementById('chatbotModal');
@@ -1323,17 +1355,32 @@
             const chatbotMessages = document.getElementById('chatbotMessages');
             const chatbotHeader = document.querySelector('.chatbot-header');
             
+            // 创建调整大小区域
+            const resizeRight = document.createElement('div');
+            resizeRight.className = 'chatbot-resize-right';
+            chatbotModal.appendChild(resizeRight);
+            
+            const resizeBottom = document.createElement('div');
+            resizeBottom.className = 'chatbot-resize-bottom';
+            chatbotModal.appendChild(resizeBottom);
+            
+            const resizeCorner = document.createElement('div');
+            resizeCorner.className = 'chatbot-resize-corner';
+            chatbotModal.appendChild(resizeCorner);
+            
             // 聊天机器人拖动相关变量
             let isDragging = false;
             let isResizing = false;
+            let resizeDirection = null;
             let currentX;
             let currentY;
             let initialX;
             let initialY;
             let xOffset = 0;
             let yOffset = 0;
-            let dragStartX, dragStartY;
-            let modalStartWidth, modalStartHeight;
+            let startX, startY;
+            let startWidth, startHeight;
+            let originalLeft, originalTop; // 保存原始左边和顶部位置
             
             // Toggle chatbot visibility
             chatbotToggle.addEventListener('click', function() {
@@ -1424,7 +1471,11 @@
             function resetPosition() {
                 xOffset = 0;
                 yOffset = 0;
-                chatbotModal.style.transform = "translate(0, 0)";
+                // 重新计算初始位置
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                chatbotModal.style.left = (windowWidth - 530) + 'px'; // 500px宽度 + 30px右边距
+                chatbotModal.style.top = (windowHeight - 720) + 'px';  // 600px高度 + 120px底部边距
             }
             
             // 拖动功能实现
@@ -1448,9 +1499,10 @@
                 
                 if (e.target === chatbotHeader) {
                     isDragging = true;
-                    dragStartX = e.clientX || e.touches[0].clientX;
-                    dragStartY = e.clientY || e.touches[0].clientY;
                 }
+                
+                // 防止文本选择
+                e.preventDefault();
             }
             
             function drag(e) {
@@ -1468,8 +1520,8 @@
                     xOffset = currentX;
                     yOffset = currentY;
                     
-                    // 实时更新位置
-                    chatbotModal.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    // 实时更新位置，提高跟手性
+                    updateModalPosition();
                 }
             }
             
@@ -1484,6 +1536,109 @@
                 }
             }
             
+            // 实时更新窗口位置
+            function updateModalPosition() {
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // 计算新的左边和顶部位置
+                const newLeft = windowWidth - 530 + xOffset;
+                const newTop = windowHeight - 720 + yOffset;
+                
+                chatbotModal.style.left = newLeft + 'px';
+                chatbotModal.style.top = newTop + 'px';
+            }
+            
+            // 调整大小功能实现
+            resizeRight.addEventListener("mousedown", function(e) {
+                startResize(e, 'right');
+            });
+            
+            resizeBottom.addEventListener("mousedown", function(e) {
+                startResize(e, 'bottom');
+            });
+            
+            resizeCorner.addEventListener("mousedown", function(e) {
+                startResize(e, 'corner');
+            });
+            
+            // 移动端触摸事件支持
+            resizeRight.addEventListener("touchstart", function(e) {
+                startResize(e, 'right');
+            }, false);
+            
+            resizeBottom.addEventListener("touchstart", function(e) {
+                startResize(e, 'bottom');
+            }, false);
+            
+            resizeCorner.addEventListener("touchstart", function(e) {
+                startResize(e, 'corner');
+            }, false);
+            
+            document.addEventListener("mousemove", resizing);
+            document.addEventListener("touchmove", resizing, false);
+            document.addEventListener("mouseup", endResize);
+            document.addEventListener("touchend", endResize, false);
+            
+            function startResize(e, direction) {
+                isResizing = true;
+                resizeDirection = direction;
+                startX = e.clientX || e.touches[0].clientX;
+                startY = e.clientY || e.touches[0].clientY;
+                
+                // 获取初始尺寸和位置
+                const rect = chatbotModal.getBoundingClientRect();
+                startWidth = rect.width;
+                startHeight = rect.height;
+                
+                // 保存原始左边和顶部位置
+                originalLeft = rect.left;
+                originalTop = rect.top;
+                
+                // 防止事件冒泡
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            
+            function resizing(e) {
+                if (isResizing) {
+                    e.preventDefault();
+                    const currentX = e.clientX || e.touches[0].clientX;
+                    const currentY = e.clientY || e.touches[0].clientY;
+                    
+                    const diffX = currentX - startX;
+                    const diffY = currentY - startY;
+                    
+                    // 根据调整方向调整尺寸，同时保持左上角位置不变
+                    switch(resizeDirection) {
+                        case 'right':
+                            // 只调整宽度，保持左上角位置不变
+                            const newWidth = Math.max(300, startWidth + diffX);
+                            chatbotModal.style.width = newWidth + 'px';
+                            break;
+                            
+                        case 'bottom':
+                            // 只调整高度，保持左上角位置不变
+                            const newHeight = Math.max(400, startHeight + diffY);
+                            chatbotModal.style.height = newHeight + 'px';
+                            break;
+                            
+                        case 'corner':
+                            // 同时调整宽度和高度，保持左上角位置不变
+                            const newWidthCorner = Math.max(300, startWidth + diffX);
+                            const newHeightCorner = Math.max(400, startHeight + diffY);
+                            chatbotModal.style.width = newWidthCorner + 'px';
+                            chatbotModal.style.height = newHeightCorner + 'px';
+                            break;
+                    }
+                }
+            }
+            
+            function endResize(e) {
+                isResizing = false;
+                resizeDirection = null;
+            }
+            
             // 边缘吸附功能
             function snapToEdge() {
                 const modalRect = chatbotModal.getBoundingClientRect();
@@ -1491,41 +1646,40 @@
                 const windowHeight = window.innerHeight;
                 
                 // 计算吸附位置
-                let newX = xOffset;
-                let newY = yOffset;
+                let newLeft = modalRect.left;
+                let newTop = modalRect.top;
                 
                 // 右边缘吸附并展开
                 if (Math.abs(modalRect.right - windowWidth) < 30) {
-                    newX = windowWidth - chatbotModal.offsetWidth - 10;
+                    newLeft = windowWidth - chatbotModal.offsetWidth - 10;
                     // 展开窗口到边缘
                     expandToEdge('right');
                 }
                 // 左边缘吸附并展开
                 else if (Math.abs(modalRect.left) < 30) {
-                    newX = 10;
+                    newLeft = 10;
                     // 展开窗口到边缘
                     expandToEdge('left');
                 }
                 
                 // 下边缘吸附并展开
                 if (Math.abs(modalRect.bottom - windowHeight) < 30) {
-                    newY = windowHeight - chatbotModal.offsetHeight - 10;
+                    newTop = windowHeight - chatbotModal.offsetHeight - 10;
                     // 展开窗口到边缘
                     expandToEdge('bottom');
                 }
                 // 上边缘吸附并展开
                 else if (Math.abs(modalRect.top) < 30) {
-                    newY = 10;
+                    newTop = 10;
                     // 展开窗口到边缘
                     expandToEdge('top');
                 }
                 
                 // 应用吸附动画
-                if (newX !== xOffset || newY !== yOffset) {
-                    xOffset = newX;
-                    yOffset = newY;
-                    chatbotModal.style.transition = "transform 0.3s ease";
-                    chatbotModal.style.transform = `translate(${newX}px, ${newY}px)`;
+                if (newLeft !== modalRect.left || newTop !== modalRect.top) {
+                    chatbotModal.style.transition = "left 0.3s ease, top 0.3s ease, width 0.3s ease, height 0.3s ease";
+                    chatbotModal.style.left = newLeft + 'px';
+                    chatbotModal.style.top = newTop + 'px';
                     
                     // 动画结束后移除过渡效果
                     setTimeout(() => {
@@ -1538,8 +1692,6 @@
             function expandToEdge(edge) {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
-                const currentWidth = chatbotModal.offsetWidth;
-                const currentHeight = chatbotModal.offsetHeight;
                 
                 // 根据边缘方向展开窗口
                 switch(edge) {
@@ -1568,9 +1720,13 @@
                     snapToEdge();
                 }
             });
+            
+            // 初始化位置
+            window.addEventListener('load', function() {
+                resetPosition();
+            });
         });
         </script>
-
 
     <div class="container">
         <div class="header">
